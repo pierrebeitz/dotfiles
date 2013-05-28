@@ -1,0 +1,24 @@
+# Shortcuts
+alias c="cd ~/code"
+alias s="subl ."
+alias vb="cd /mnt/vbshare"
+alias www="cd /var/www"
+
+alias l="ls -l ${colorflag}"               # List all files colorized in long format
+alias la="ls -la ${colorflag}"             # List all files colorized in long format, including dot files
+alias lsd='ls -l ${colorflag} | grep "^d"' # List only directories
+
+alias gurl='curl --compressed' # Gzip-enabled `curl`
+
+# View HTTP traffic
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+
+# Trim new lines and copy to clipboard
+alias c="tr -d '\n' | pbcopy"
+
+# Some convenience
+alias getme="sudo apt-get install"
+alias update="sudo apt-get update && sudo apt-get upgrade"
+alias alog="tail /var/log/apache2/error.log"
+alias dotfiles="subl ~/code/dotfiles/"
