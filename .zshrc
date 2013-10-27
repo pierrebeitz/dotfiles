@@ -16,17 +16,5 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git git-flow symfony2)
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/.aliases
 
-# Customize to your needs...
-export PATH=/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-PATH=$PATH:$HOME/.idea/bin
-PATH=$PATH:$HOME/.play-2.0.4
-PATH=$PATH:$HOME/workspace/git-friendly
-
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-
-. $HOME/code/z/z.sh
+source ~/.bashrc

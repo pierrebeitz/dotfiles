@@ -1,21 +1,20 @@
-# Shortcuts
 alias c="cd ~/code"
+alias g="git"
 alias s="subl ."
-alias vb="cd /mnt/vbshare"
 alias www="cd /var/www"
 
-alias l="ls -l ${colorflag}"               # List all files colorized in long format
-alias la="ls -la ${colorflag}"             # List all files colorized in long format, including dot files
-alias lsd='ls -l ${colorflag} | grep "^d"' # List only directories
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
-alias gurl='curl --compressed' # Gzip-enabled `curl`
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
 
-# View HTTP traffic
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+alias hosts='sudo $EDITOR /etc/hosts'
 
 # Some convenience
-alias getme="sudo apt-get install"
+alias install="sudo apt-get install"
 alias update="sudo apt-get update && sudo apt-get upgrade"
 alias alog="tail /var/log/apache2/error.log"
-alias dotfiles="subl ~/code/dotfiles/"
