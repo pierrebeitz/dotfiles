@@ -15,6 +15,6 @@ alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v exten
 
 
 # Some convenience
-alias install="sudo apt-get install"
-alias update="sudo apt-get update && sudo apt-get upgrade"
+alias apt-in="sudo apt-get install"
+alias apt-up="sudo apt-get update && sudo apt-get upgrade"
 alias alog="tail /var/log/apache2/error.log"
