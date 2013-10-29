@@ -1,20 +1,20 @@
-# Path to your oh-my-zsh configuration.
+# oh-my-zsh config and init
 ZSH=$HOME/.oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
 ZSH_THEME="robbyrussell"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
+COMPLETION_WAITING_DOTS="true" # Uncomment following line if you want red dots to be displayed while waiting for completion
 plugins=(git git-flow symfony2)
+. $ZSH/oh-my-zsh.sh
 
-source $ZSH/oh-my-zsh.sh
+# init zsh-completions
+fpath=(~/code/zsh-completions/src $fpath)
+# init rvm
+. ~/.rvm/scripts/rvm
+# init nvm
+. ~/.nvm/nvm.sh
+# init z
+. ~/code/z/z.sh
 
-source ~/.bashrc
+for file in ~/.{extra,bash_prompt,aliases,functions}; do
+    [ -r "$file" ] && source "$file"
+done
+unset file

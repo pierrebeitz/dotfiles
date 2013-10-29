@@ -19,4 +19,8 @@ chsh -s /bin/zsh
 cd ~/code
 git clone https://github.com/rupa/z.git
 chmod +x ~/code/z/z.sh
+# zsh-completions
+git clone git://github.com/zsh-users/zsh-completions.git
+
+
 # also consider moving over your current .z file if possible. it's painful to rebuild :)
