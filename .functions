@@ -10,6 +10,49 @@ function f() {
 }
 
 
+# copies template.conf to generate new apache-vhost
+function addvhost() {
+    if [ -f /etc/apache2/sites-available/template.conf ]; then
+        if [ -z "$1" ]; then
+            echo "Please provide an abbreviation for the vhost"
+            return 1
+        else
+            if [ -f /etc/apache2/sites-available/$1.conf ]; then
+                echo "$1.conf already exists! did not overwrite!"
+            else
+                vhost="/etc/apache2/sites-available/$1.conf"
+                sudo cp /etc/apache2/sites-available/template.conf $vhost
+                sed "s/###ABBREV###/$1/" $vhost | sudo tee $vhost
+                return 0
+            fi
+        fi
+    else
+        echo 'can not find vhost-template (looking for /etc/apache2/sites-available/template.conf)'
+        return 1
+    fi
+}
+
+function addtohosts(){
+    hostsfile=/etc/hosts
+    if grep -q "127.0.0.1\s$1.localhost" $hostsfile; then
+        echo "$1 already in $hostsfile"
+    else
+        echo -n "adding to /etc/hosts: "
+        echo "127.0.0.1 $1.localhost" | sudo tee -a $hostsfile
+    fi
+}
+
+function initvhost(){
+    addvhost $1
+    if [ $? -eq 0 ]; then
+        sudo a2ensite $1
+        addtohosts $1
+        sudo service apache2 reload
+    else
+        echo "Could not init vhost $1"
+    fi
+}
+
 # Determine size of a file or total size of a directory
 function fs() {
 	if du -b /dev/null > /dev/null 2>&1; then
