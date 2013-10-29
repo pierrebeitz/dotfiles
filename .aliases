@@ -1,5 +1,6 @@
 alias c="cd ~/code"
 alias g="git"
+alias hosts='sudo $EDITOR /etc/hosts'
 alias s="subl ."
 alias www="cd /var/www"
 
@@ -12,7 +13,6 @@ alias map="xargs -n1"
 
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 
-alias hosts='sudo $EDITOR /etc/hosts'
 
 # Some convenience
 alias install="sudo apt-get install"
