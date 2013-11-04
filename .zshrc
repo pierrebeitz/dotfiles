@@ -13,9 +13,8 @@ unset file
 # init zsh-completions
 fpath=(~/code/zsh-completions/src $fpath)
 # init rvm
-. ~/.rvm/scripts/rvm
+[[ -a ~/.rvm/scripts/rvm ]] && ~/.rvm/scripts/rvm
 # init nvm
-. ~/.nvm/nvm.sh
+[[ -a ~/.nvm/nvm.sh ]] && . ~/.nvm/nvm.sh
 # init z
-. ~/code/z/z.sh
-
+[[ -a ~/code/z/z.sh ]] && . ~/code/z/z.sh
