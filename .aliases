@@ -3,6 +3,8 @@ alias g="git"
 alias hosts='sudo $EDITOR /etc/hosts'
 alias s="subl ."
 alias www="cd /var/www"
+alias sites="cd /etc/apache2/sites-available"
+alias sitese="cd /etc/apache2/sites-enabled"
 
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
