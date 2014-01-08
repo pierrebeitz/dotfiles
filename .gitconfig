@@ -10,7 +10,6 @@
 [core]
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
-        autocrlf = true 
 [color "branch"]
 	current = yellow reverse
 	local = yellow
