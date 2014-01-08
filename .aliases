@@ -3,6 +3,8 @@ alias g="git"
 alias hosts='sudo $EDITOR /etc/hosts'
 alias s="subl ."
 alias www="cd /var/www"
+alias chowww="sudo chown $(whoami):www-data"
+alias chmwww="sudo chmod g+rw"
 alias sites="cd /etc/apache2/sites-available"
 alias sitese="cd /etc/apache2/sites-enabled"
 
@@ -20,3 +22,4 @@ alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v exten
 alias apt-in="sudo apt-get install"
 alias apt-up="sudo apt-get update && sudo apt-get upgrade"
 alias alog="tail /var/log/apache2/error.log"
+alias alogl="less /var/log/apache2/error.log"
