@@ -5,9 +5,6 @@ for file in ~/.{extra,bash_prompt,aliases,functions}; do
 done
 unset file
 
-# init z   https://github.com/rupa/z
-. ~/code/z/z.sh
-
 # Case-insensitive globbing (used in pathname expansion)
 # shopt -s nocaseglob
 
@@ -21,6 +18,3 @@ export LANG="en_US"
 # Add tab completion for `defaults read|write NSGlobalDomain`
 # You could just use `-g` instead, but I like being explicit
 # complete -W "NSGlobalDomain" defaults
-
-# init rvm
-source "$HOME/.rvm/scripts/rvm"

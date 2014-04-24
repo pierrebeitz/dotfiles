@@ -7,16 +7,15 @@ alias chowww="sudo chown $(whoami):www-data"
 alias chmwww="sudo chmod g+rw"
 alias sites="cd /etc/apache2/sites-available"
 alias sitese="cd /etc/apache2/sites-enabled"
+alias clip='xsel -ib'
 
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+alias phpserve="php -Slocalhost:3000"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
-
-alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-
 
 # Some convenience
 alias apt-in="sudo apt-get install"

@@ -15,5 +15,3 @@ chsh -s /bin/zsh
 cd ~/code
 # zsh-completions
 git clone git://github.com/zsh-users/zsh-completions.git
-# git-friendly
-git clone git://github.com/jamiew/git-friendly.git
