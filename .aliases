@@ -10,7 +10,6 @@ alias sitese="cd /etc/apache2/sites-enabled"
 alias clip='xsel -ib'
 
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
-alias phpserve="php -Slocalhost:3000"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
@@ -18,7 +17,7 @@ alias phpserve="php -Slocalhost:3000"
 alias map="xargs -n1"
 
 # Some convenience
-alias apt-in="sudo apt-get install"
-alias apt-up="sudo apt-get update && sudo apt-get upgrade"
+alias aptin="sudo apt-get install"
+alias aptup="sudo apt-get update && sudo apt-get upgrade"
 alias alog="tail /var/log/apache2/error.log"
 alias alogl="less /var/log/apache2/error.log"

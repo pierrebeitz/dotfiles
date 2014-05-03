@@ -1,30 +1,28 @@
+[user]
+	email = "pb@naymspace.de"
+	name = "Pierre Beitz"
+
 [alias]
+	aa = add -A
 	c = commit -am
-	up = pull
-	p = push
 	s = status -s
 	df = diff --color --color-words --abbrev
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	r = !git l -30
+	ra = !git r --all
+	l = "!. ~/.githelpers && pretty_git_log"
+	la = !git l --all
+	pullff = pull --ff-only
+
 [color]
 	ui = always
+
 [core]
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
-[color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
-[color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
-[color "status"]
-	added = yellow
-	changed = green
-	untracked = cyan
+
 [merge]
 	log = true
+
 [url "git@github.com:"]
 	insteadOf = "gh:"
 	pushInsteadOf = "github:"
@@ -41,10 +39,7 @@
 # Any GitHub repo with my username should be checked out r/w by default
 # http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
 [url "git@github.com:pierrebeitz/"]
-  insteadOf = "git://github.com/pierrebeitz/"
+	insteadOf = "git://github.com/pierrebeitz/"
 
-[user]
-  email = "pb@naymspace.de"
-  name = "Pierre Beitz"
 [push]
-  default = simple
+	default = simple

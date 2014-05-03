@@ -1,18 +1,12 @@
-# Create a new directory and enter it
-function md() {
-	mkdir -p "$@" && cd "$@"
-}
-
-
 # find shorthand
 function f() {
     find . -name "$1"
 }
 
-
 # copies template.conf to generate new apache-vhost
 function addvhost() {
-    if [ -f /etc/apache2/sites-available/template.conf ]; then
+    $t = "/etc/apache2/sites-available/template.conf"
+    if [ -f $t ]; then
         if [ -z "$1" ]; then
             echo "Please provide an abbreviation for the vhost"
             return 1
@@ -27,7 +21,7 @@ function addvhost() {
             fi
         fi
     else
-        echo 'can not find vhost-template (looking for /etc/apache2/sites-available/template.conf)'
+        echo "could not find $t"
         return 1
     fi
 }
@@ -101,7 +95,3 @@ function gz() {
 	printf "orig: %d bytes\n" "$origsize"
 	printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio"
 }
-
-
-
-
