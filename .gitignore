@@ -39,3 +39,7 @@ Thumbs.db
 # IDE #
 #######
 *.sublime-*
+
+# MISC #
+#######
+.extra
