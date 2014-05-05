@@ -28,7 +28,6 @@ function ask() {
 }
 
 function link() {
-  rm ~/$1
   ln -s $PWD/$1 ~/$1
   echo "linked $1"
 }
@@ -38,6 +37,7 @@ function main(){
     if exists_in_home_dir $f; then
       if ! linked_correctly $f; then
         if ask "overwrite ~/$f?"; then
+          rm ~/$1
           link $f
         fi
       fi
