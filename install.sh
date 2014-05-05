@@ -37,7 +37,7 @@ function main(){
     if exists_in_home_dir $f; then
       if ! linked_correctly $f; then
         if ask "overwrite ~/$f?"; then
-          rm ~/$1
+          rm ~/$f
           link $f
         fi
       fi
