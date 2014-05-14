@@ -2,7 +2,7 @@
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
-plugins=(capistrano cp git git-extras git-flow git-remote-branch gitignore nvm z zsh_reload)
+plugins=(capistrano cp git git-extras git-flow git-remote-branch gitignore nvm symfony2 z zsh_reload)
 . $ZSH/oh-my-zsh.sh
 
 # change prompt: add machine's name, remove repo-information, since we get it from the git-prompt-plugin
