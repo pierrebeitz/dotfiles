@@ -7,11 +7,15 @@
 	c = commit -am
 	s = status -s
 	df = diff --color --color-words --abbrev
-	r = !git l -30
-	ra = !git r --all
-	l = "!. ~/.githelpers && pretty_git_log"
-	la = !git l --all
 	pullff = pull --ff-only
+
+  r = !GIT_NO_PAGER=1 git l -30
+  ra = !git r --all
+  head = !git r -1
+  h = !git head
+  hp = "!. ~/.githelpers && show_git_head"
+  l = "!. ~/.githelpers && pretty_git_log"
+  la = !git l --all
 
 [color]
 	ui = always
