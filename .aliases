@@ -1,15 +1,12 @@
 alias c="cd ~/code"
+alias chowww="sudo chgrp www-data"
+alias clip='xsel -ib'
 alias g="git"
+alias gulp='gulp --require coffee-script/register'
 alias hosts='sudo $EDITOR /etc/hosts'
-alias s="subl ."
-alias www="cd /var/www"
-alias chowww="sudo chown $(whoami):www-data"
-alias chmwww="sudo chmod g+rw"
 alias sites="cd /etc/apache2/sites-available"
 alias sitese="cd /etc/apache2/sites-enabled"
-alias clip='xsel -ib'
-
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+alias www="cd /var/www"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
