@@ -2,6 +2,7 @@ alias c="cd ~/code"
 alias chowww="sudo chgrp www-data"
 alias clip='xsel -ib'
 alias g="git"
+alias gcd="git checkout develop"
 alias gulp='gulp --require coffee-script/register'
 alias hosts='sudo $EDITOR /etc/hosts'
 alias sites="cd /etc/apache2/sites-available"
