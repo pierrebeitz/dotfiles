@@ -1,62 +1,75 @@
-[user]
-	email = "pb@naymspace.de"
-	name = "Pierre Beitz"
-
 [alias]
-	aa = add -A
-	c = commit -am
-	s = status -s
-	df = diff --color --color-words --abbrev
-	pullff = pull --ff-only
-
-  r = !GIT_NO_PAGER=1 git l -30
-  ra = !git r --all
-  head = !git r -1
+  a = add -u
+  aa = add --all :/
+  ap = add -u -p
+  b = browse
+  c = commit -v
+  df = diff --color --color-words --abbrev
   h = !git head
+  head = !git r -1
   hp = "!. ~/.githelpers && show_git_head"
   l = "!. ~/.githelpers && pretty_git_log"
   la = !git l --all
+  pullff = pull --ff-only
+  r = !GIT_NO_PAGER=1 git l -30
+  ra = !git r --all
+  s = status -s -b
 
 [color]
-	ui = always
+  ui = always
+
 [color "branch"]
- 	current = yellow reverse
- 	local = yellow
- 	remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
+
 [color "diff"]
- 	meta = yellow bold
- 	frag = magenta bold
- 	old = red bold
- 	new = green bold
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
 [color "status"]
- 	added = yellow
- 	changed = green
- 	untracked = cyan
+  added = yellow
+  changed = green
+  untracked = cyan
 
 [core]
-	excludesfile = ~/.gitignore
-	attributesfile = ~/.gitattributes
+  pager = less -FRSX
+  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol  
+  editor = vim -f
+  autocrlf = input
+  safecrlf = true
+  excludesfile = ~/.global_gitignore
+
+[github]
+  user = pierrebeitz
 
 [merge]
-	log = true
-
-[url "git@github.com:"]
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
-[url "git://github.com/"]
-	insteadOf = "github:"
-[url "git@gist.github.com:"]
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
-[url "git://gist.github.com/"]
-	insteadOf = "gist:"
-
-# Any GitHub repo with my username should be checked out r/w by default
-# http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
-[url "git@github.com:pierrebeitz/"]
-	insteadOf = "git://github.com/pierrebeitz/"
+  log = true
 
 [push]
-	default = simple
+  default = simple
+
+[user]
+  name = "Pierre Beitz"
+  email = "pb@naymspace.de"
+
+[url "git@github.com:"]
+  insteadOf = "gh:"
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+  insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+  insteadOf = "gist:"
+
+[url "git@github.com:pierrebeitz/"]
+  insteadOf = "git://github.com/pierrebeitz/"

@@ -63,3 +63,23 @@ pretty_git_log() {
             less --quit-if-one-screen --no-init --RAW-CONTROL-CHARS --chop-long-lines
         fi
 }
+
+delete_local_merged_branches() {
+  git branch --merged master | grep -v master | xargs git branch -d
+}
+
+delete_remote_merged_branches() {
+  git fetch origin
+  git remote prune origin
+
+  for BRANCH in `git branch -r --merged origin/master |\
+                 egrep "^\s*origin/"                  |\
+                 grep -v master                       |\
+                 grep chrishunt                       |\
+                 cut -d/ -f2-`
+  do
+    git push origin :$BRANCH
+  done
+}
+
+
