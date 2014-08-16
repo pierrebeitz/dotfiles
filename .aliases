@@ -7,7 +7,8 @@ alias gulp='gulp --require coffee-script/register'
 alias hosts='sudo $EDITOR /etc/hosts'
 alias sites="cd /etc/apache2/sites-available"
 alias sitese="cd /etc/apache2/sites-enabled"
-alias tmux="TERM=screen-256color-bce tmux"
+alias t="TERM=screen-256color-bce tmux"
+alias ts="t choose-session"
 alias www="cd /var/www"
 
 # Intuitive map function
