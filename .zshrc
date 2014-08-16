@@ -10,7 +10,7 @@ source $ZSH/oh-my-zsh.sh
 # Narrow that down to allow easier skipping through words via M-f and M-b.
 export WORDCHARS='*?[]~&;!$%^<>'
 
-source .aliases
+source ~/.aliases
 function f() {
   find . -name "$1"
 }
