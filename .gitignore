@@ -1,9 +1,16 @@
-.*
-!.aliases
+*
 !.base16
 !.oh-my-zsh
 !.vim
-Downloads
-Dropbox
-code
 
+!.aliases
+.gemrc
+.gitconfig
+.githelpers
+.gitignore
+.gitmodules
+.global_gitignore
+.tmux.conf
+.vimrc
+.zshrc
+README.md
