@@ -151,9 +151,9 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 " ctrlp config
-"let g:ctrlp_max_height = 30
-"let g:ctrlp_working_path_mode = 0
-"let g:ctrlp_match_window_reversed = 0
+let g:ctrlp_max_height = 30
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' " use silver searcher for ctrlp
 
 " move lines up/down
@@ -163,6 +163,12 @@ inoremap <c-J> <Esc>:m .+1<CR>==gi
 inoremap <c-K> <Esc>:m .-2<CR>==gi
 vnoremap <c-J> :m '>+1<CR>gv=gv
 vnoremap <c-K> :m '<-2<CR>gv=gv
+
+
+nnoremap <c-t> :call ReloadChrome()<cr>
+function! ReloadChrome()
+    exec ":silent !bash ~/.chrome-reload.sh "
+endfunction
 
 " toggle spell check with <F5>
 map <F5> :setlocal spell! spelllang=en_us<cr>
