@@ -20,7 +20,7 @@ set hlsearch                      " highlight all search matches
 set ignorecase smartcase          " ignore case in search
 set incsearch                     " show search results as I type
 set laststatus=2                  " always show status bar
-set list listchars=tab:»·,trail:· " show extra space characters
+"set list listchars=tab:»·,trail:· " show extra space characters
 set mouse=a                       " enable mouse support
 set nobackup                      " Don't make backups at all
 set nocompatible                  " don't need to be compatible with old vim

@@ -6,6 +6,9 @@ DISABLE_AUTO_TITLE="true"
 plugins=(cp git git-extras git-flow git-remote-branch gitignore nvm z zsh_reload)
 source $ZSH/oh-my-zsh.sh
 
+unsetopt RM_STAR_SILENT
+setopt RM_STAR_WAIT
+
 # By default, zsh considers many characters part of a word (e.g., _ and -).
 # Narrow that down to allow easier skipping through words via M-f and M-b.
 export WORDCHARS='*?[]~&;!$%^<>'
@@ -15,9 +18,4 @@ function f() {
   find . -name "$1"
 }
 
-# Always work in a tmux session if tmux is installed
-if which tmux 2>&1 >/dev/null; then
-  if [ $TERM != "screen-256color" ] && [  $TERM != "screen" ]; then
-    t attach -t hack || t new -s hack;
-  fi
-fi
+export PATH=/usr/local/sbin:$PATH

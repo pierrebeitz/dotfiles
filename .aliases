@@ -5,6 +5,7 @@ alias g="git"
 alias gcd="git checkout develop"
 alias gulp='gulp --require coffee-script/register'
 alias hosts='sudo $EDITOR /etc/hosts'
+alias server='php -S localhost:8000'
 alias sites="cd /etc/apache2/sites-available"
 alias sitese="cd /etc/apache2/sites-enabled"
 alias t="TERM=screen-256color-bce tmux"
