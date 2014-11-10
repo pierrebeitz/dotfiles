@@ -27,13 +27,15 @@ set nocompatible                  " don't need to be compatible with old vim
 set nofoldenable                  " disable code folding
 set nojoinspaces                  " Insert only one space when joining lines that contain sentence-terminating
 set nowritebackup                 " Don't make backups at all
-set relativenumber                " show relative line numbers
+"set relativenumber                " show relative line numbers
 set ruler                         " show row and column in footer
 set scrolloff=5                   " minimum lines above/below cursor
 set shiftwidth=2
 set showcmd                       " display incomplete commands
 set showmatch                     " show bracket matches
 set smartcase                     " pay attention to case when caps are used
+set splitbelow
+set splitright
 set t_ti= t_te=                   " Prevent Vim from clobbering the scrollback buffer. See
 set ts=2                          " set indent to 2 spaces
 set ttimeoutlen=100               " decrease timeout for faster insert with 'O'
@@ -41,6 +43,8 @@ set vb                            " enable visual bell (disable audio bell)
 set wildmenu                      " enable bash style tab completion
 set wildmode=list:longest,full
 syntax on                         " show syntax highlighting
+
+
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -145,10 +149,17 @@ map <leader>cc :w !xsel -i -b<CR>
 map <leader>pp :r !xsel -p<CR>
 
 " Move around splits with <c-hjkl>
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
+nnoremap <c-k> <c-w>k
+nnoremap <c-j> <c-w>j
 nnoremap <c-l> <c-w>l
+
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-o> :TmuxNavigatePrevious<cr>
 
 " ctrlp config
 let g:ctrlp_max_height = 30
@@ -157,12 +168,12 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' " use silver searcher for ctrlp
 
 " move lines up/down
-nnoremap <c-J> :m .+1<CR>==
-nnoremap <c-K> :m .-2<CR>==
-inoremap <c-J> <Esc>:m .+1<CR>==gi
-inoremap <c-K> <Esc>:m .-2<CR>==gi
-vnoremap <c-J> :m '>+1<CR>gv=gv
-vnoremap <c-K> :m '<-2<CR>gv=gv
+nnoremap <c-m-J> :m .+1<CR>==
+nnoremap <c-m-K> :m .-2<CR>==
+inoremap <c-m-J> <Esc>:m .+1<CR>==gi
+inoremap <c-m-K> <Esc>:m .-2<CR>==gi
+vnoremap <c-m-J> :m '>+1<CR>gv=gv
+vnoremap <c-m-K> :m '<-2<CR>gv=gv
 
 
 nnoremap <c-t> :call ReloadChrome()<cr>
@@ -275,3 +286,4 @@ endfunction
 map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
 
+let g:NERDTreeDirArrows=0

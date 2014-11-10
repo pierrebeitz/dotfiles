@@ -2,6 +2,7 @@
 !.base16
 !.oh-my-zsh
 !.vim
+.vim/.netrwhist
 
 !.aliases
 !.chrome-reload.sh

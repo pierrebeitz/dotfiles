@@ -8,7 +8,7 @@ alias hosts='sudo $EDITOR /etc/hosts'
 alias server='php -S localhost:8000'
 alias sites="cd /etc/apache2/sites-available"
 alias sitese="cd /etc/apache2/sites-enabled"
-alias t="TERM=screen-256color-bce tmux"
+alias t="TERM=screen-256color-bce tmux -u"
 alias ts="t choose-session"
 alias www="cd /var/www"
 
