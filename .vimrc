@@ -144,6 +144,9 @@ noremap <C-;> :nohlsearch<CR> " clear the command line and search highlighting
 " search for word under cursor with Silver Searcher
 map <leader>A :Ag! "<C-r>=expand('<cword>')<CR>"
 
+" clear highlighting
+nnoremap <silent> <Esc><Esc> :nohl<CR>
+
 " Clipboard
 map <leader>cc :w !xsel -i -b<CR>
 map <leader>pp :r !xsel -p<CR>
