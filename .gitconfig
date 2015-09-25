@@ -10,6 +10,7 @@
   hp = "!. ~/.githelpers && show_git_head"
   l = "!. ~/.githelpers && pretty_git_log"
   la = !git l --all
+	nuke = !sh -c 'git branch -d $1 && git push origin :$1' -
   pullff = pull --ff-only
   r = !GIT_NO_PAGER=1 git l -30
   ra = !git r --all
@@ -36,18 +37,19 @@
 
 [core]
 	pager = less -x1,5
-  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	whitespace = trailing-space,space-before-tab
   editor = vim -f
-  autocrlf = false
   safecrlf = true
   excludesfile = ~/.global_gitignore
   ignorecase = false
+  autocrlf = input
 
 [github]
   user = pierrebeitz
 
 [merge]
   log = true
+	tool = meld
 
 [push]
   default = simple
@@ -84,3 +86,13 @@
 	clean = git media clean %f
 	smudge = git media smudge %f
 	required = true
+[advice]
+	statusHints = false
+[diff]
+	renames = copies
+[branch]
+	autosetupmerge = true
+[rerere]
+	enabled = true
+[fetch]
+	prune = true

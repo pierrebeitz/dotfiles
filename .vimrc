@@ -1,4 +1,4 @@
-
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 autocmd!
 
 call pathogen#infect()
@@ -20,14 +20,15 @@ set hlsearch                      " highlight all search matches
 set ignorecase smartcase          " ignore case in search
 set incsearch                     " show search results as I type
 set laststatus=2                  " always show status bar
-"set list listchars=tab:»·,trail:· " show extra space characters
+set listchars=eol:$               " show extra space characters
 set mouse=a                       " enable mouse support
 set nobackup                      " Don't make backups at all
 set nocompatible                  " don't need to be compatible with old vim
 set nofoldenable                  " disable code folding
 set nojoinspaces                  " Insert only one space when joining lines that contain sentence-terminating
+set noshowmode                    " disabled vims builtin mode-indicator (lightline ftw)
 set nowritebackup                 " Don't make backups at all
-"set relativenumber                " show relative line numbers
+set number                " show relative line numbers
 set ruler                         " show row and column in footer
 set scrolloff=5                   " minimum lines above/below cursor
 set shiftwidth=2
@@ -64,7 +65,7 @@ augroup vimrcEx
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
-  autocmd! BufRead,BufNewFile *.sass setfiletype sass 
+  autocmd! BufRead,BufNewFile *.sass setfiletype sass
 
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
@@ -162,13 +163,14 @@ nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-nnoremap <silent> <c-o> :TmuxNavigatePrevious<cr>
+"nnoremap <silent> <c-o> :TmuxNavigatePrevious<cr>
 
 " ctrlp config
 let g:ctrlp_max_height = 30
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' " use silver searcher for ctrlp
+
 
 " move lines up/down
 nnoremap <c-m-J> :m .+1<CR>==
@@ -218,6 +220,21 @@ endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CTRLSF
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
+
+
+let g:ackprg = 'ag --vimgrep'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
@@ -289,4 +306,68 @@ endfunction
 map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
 
-let g:NERDTreeDirArrows=0
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Lightline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:lightline = {
+  \  'colorscheme': 'wombat',
+  \  'active': {
+  \    'left': [ [ 'mode', 'paste' ],
+  \              [ 'fugitive', 'filename' ] ]
+  \  },
+	\  'component_function': {
+  \    'fugitive': 'LightLineFugitive',
+  \    'filename': 'LightLineFilename'
+  \  },
+  \  'separator': { 'left': '', 'right': '' },
+  \  'subseparator': { 'left': '', 'right': '' }
+  \}
+
+function! LightLineModified()
+  if &filetype == "help"
+    return ""
+  elseif &modified
+    return "+"
+  elseif &modifiable
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightLineReadonly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightLineFugitive()
+  if exists("*fugitive#head")
+    let _ = fugitive#head()
+    return strlen(_) ? ' '._ : ''
+  endif
+  return ''
+endfunction
+
+function! LightLineFilename()
+  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+endfunction
+
+
+"branch SymbolDefaultpowerlinevim--	''
+"linecolumn SymbolDefaultpowerlinevim--	''
+
+augroup reload_vimrc
+	autocmd!
+	autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
+augroup END
