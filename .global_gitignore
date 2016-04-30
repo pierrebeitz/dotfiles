@@ -6,11 +6,13 @@
 .DS_Store?
 .Spotlight-V100
 .Trashes
+/.notices
+/.todo
 ._*
 .agignore
-Icon?
 Thumbs.db
 \#*\#
 ehthumbs.db
 
 *.sublime-*
+*.todo

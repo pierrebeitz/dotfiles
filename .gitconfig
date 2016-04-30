@@ -3,6 +3,7 @@
   aa = add --all :/
   ap = add -u -p
   b = browse
+	bdm = "!git branch --merged | grep -v '*' | xargs -n 1 git branch -d"
   c = commit -v
   df = diff --color --color-words --abbrev
   h = !git head
@@ -10,14 +11,17 @@
   hp = "!. ~/.githelpers && show_git_head"
   l = "!. ~/.githelpers && pretty_git_log"
   la = !git l --all
+	me = !git l --all --author='Pierre' --date-order
 	nuke = !sh -c 'git branch -d $1 && git push origin :$1' -
+	pf = push --force-with-lease
   pullff = pull --ff-only
   r = !GIT_NO_PAGER=1 git l -30
   ra = !git r --all
+	rank = shortlog -sn --no-merges
   s = status -s -b
 
 [color]
-  ui = always
+	ui = always
 
 [color "branch"]
   current = yellow reverse
@@ -49,45 +53,23 @@
 
 [merge]
   log = true
-	tool = meld
+	tool = prompt
 
 [push]
-  default = simple
+	default = current
 
 [user]
   name = "Pierre Beitz"
   email = "pb@naymspace.de"
 
-[url "git@github.com:"]
-  insteadOf = "gh:"
-  pushInsteadOf = "github:"
-  pushInsteadOf = "git://github.com/"
-
-[url "git://github.com/"]
-  insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-  insteadOf = "gst:"
-  pushInsteadOf = "gist:"
-  pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-  insteadOf = "gist:"
-
-[url "git@github.com:pierrebeitz/"]
-  insteadOf = "git://github.com/pierrebeitz/"
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [filter "media"]
 	clean = git media clean %f
 	smudge = git media smudge %f
 	required = true
+
 [advice]
-	statusHints = false
+	statusHints = true
+
 [diff]
 	renames = copies
 [branch]
@@ -96,3 +78,9 @@
 	enabled = true
 [fetch]
 	prune = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

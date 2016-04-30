@@ -101,6 +101,9 @@ set statusline=%F%m%r%h%w\ %{fugitive#statusline()}%=[%L,%p%%][%l,%c]
 " set dark background and color scheme
 set background=dark
 colorscheme base16-railscasts
+if &diff
+	colorscheme default
+endif
 
 " set up some custom colors
 highlight clear SignColumn
@@ -170,15 +173,16 @@ let g:ctrlp_max_height = 30
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' " use silver searcher for ctrlp
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 
 " move lines up/down
-nnoremap <c-m-J> :m .+1<CR>==
-nnoremap <c-m-K> :m .-2<CR>==
-inoremap <c-m-J> <Esc>:m .+1<CR>==gi
-inoremap <c-m-K> <Esc>:m .-2<CR>==gi
-vnoremap <c-m-J> :m '>+1<CR>gv=gv
-vnoremap <c-m-K> :m '<-2<CR>gv=gv
+"nnoremap <c-m-J> :m .+1<CR>==
+"nnoremap <c-m-K> :m .-2<CR>==
+"inoremap <c-m-J> <Esc>:m .+1<CR>==gi
+"inoremap <c-m-K> <Esc>:m .-2<CR>==gi
+"vnoremap <c-m-J> :m '>+1<CR>gv=gv
+"vnoremap <c-m-K> :m '<-2<CR>gv=gv
 
 
 nnoremap <c-t> :call ReloadChrome()<cr>
@@ -310,6 +314,8 @@ let g:NERDTreeDirArrows = 1
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lightline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -371,3 +377,5 @@ augroup reload_vimrc
 	autocmd!
 	autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
+
+"let g:move_key_modifier = 'S'
