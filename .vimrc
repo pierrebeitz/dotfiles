@@ -313,8 +313,15 @@ map <leader>T :call RunNearestTest()<cr>
 let g:NERDTreeDirArrows = 1
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeWinSize=45
+silent! map <C-k><C-b> :NERDTreeToggle<CR>
+silent! map <F3> :NERDTreeFind<CR>
 
+let g:NERDTreeMapActivateNode="<F3>"
+let g:NERDTreeMapPreview="<F4>"
 
+noremap <C-tab>   :bp<CR>
+noremap <C-S-tab> :bn<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lightline

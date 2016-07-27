@@ -6,6 +6,7 @@
 .DS_Store?
 .Spotlight-V100
 .Trashes
+/.bundle
 /.notices
 /.todo
 ._*
@@ -16,3 +17,7 @@ ehthumbs.db
 
 *.sublime-*
 *.todo
+.gitmessage.txt
+.mix_tasks
+
+config/initializers/ecryptfs.rb

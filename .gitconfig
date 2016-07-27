@@ -53,7 +53,7 @@
 
 [merge]
   log = true
-	tool = prompt
+	tool = meld
 
 [push]
 	default = current
