@@ -1,49 +1,156 @@
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-autocmd!
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VUNDLE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-call pathogen#infect()
+" Plugin 'tpope/somePlugin'                    " GitHub repo
+" Plugin 'L9'                                  " from http://vim-scripts.org/vim/scripts.html
+" Plugin 'git://git.wincent.com/somePlu-t.git' " Git plugin not hosted on GitHub
+" Plugin 'file:///home/gmarik/path/to/plugin'  " git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}   " Pass the path to set the runtimepath properly.
+" Plugin 'ascenator/L9', {'name': 'newL9'}     " Install L9 and avoid a Naming conflict if you've already installed a different version somewhere else.
+
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" see :h vundle for more details or wiki for FAQ
+
+" To ignore plugin indent changes, instead use:
+" filetype plugin on
+
+set nocompatible                  " be iMproved, required
+filetype off                      " required
+set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and initialize
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'ElmCast/elm-vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'chriskempson/base16-vim'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'dyng/ctrlsf.vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'itchyny/lightline.vim'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'majutsushi/tagbar'
+Plugin 'mattn/emmet-vim'
+Plugin 'mileszs/ack.vim'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'othree/html5.vim'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+
+" deleted: .vim/bundle/vim-coffee-script
+" deleted: .vim/bundle/vim-rails
+
+call     vundle#end()
+filetype plugin indent on    " required
+
+noremap  <silent> <C-S> :w<CR>
+vnoremap <silent> <C-S> <C-C>:w<CR>
+inoremap <silent> <C-S> <C-O>:w<CR>
+nnoremap <leader>ss :mksession<CR>
+
+noremap  <c-q> :bd<CR>
+noremap  <a-left> :bp<CR>
+noremap  <a-right> :bn<CR>
+
+noremap <c-@> :e ~/.todo<CR>
+
+let g:gitgutter_override_sign_column_highlight = 0
+
+
+"space open/closes folds
+nnoremap <space> za
+inoremap jj <esc>
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/build/*,*/elm-stuff/*
+
+if bufwinnr(1)
+  map - <C-W><
+  map + <C-W>>
+endif
+
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+" let g:UltiSnipsEditSplit="vertical"
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING CONFIGURATION
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
-runtime macros/matchit.vim        " use % to jump between start/end of methods
-set autoindent                    " set auto indent
-set autoread                      " If a file is changed outside of vim, automatically reload it without asking
-set backspace=indent,eol,start    " allow backspacing over everything in insert mode
-set clipboard=unnamedplus         " use the system clipboard
-set cursorline                    " highlight current line
-set expandtab                     " use spaces, not tab characters
-set hidden                        " allow unsaved background buffers and remember marks/undo for them
-set history=10000                 " remember more commands and search history
-set hlsearch                      " highlight all search matches
-set ignorecase smartcase          " ignore case in search
-set incsearch                     " show search results as I type
-set laststatus=2                  " always show status bar
-set listchars=eol:$               " show extra space characters
-set mouse=a                       " enable mouse support
-set nobackup                      " Don't make backups at all
-set nocompatible                  " don't need to be compatible with old vim
-set nofoldenable                  " disable code folding
-set nojoinspaces                  " Insert only one space when joining lines that contain sentence-terminating
-set noshowmode                    " disabled vims builtin mode-indicator (lightline ftw)
-set nowritebackup                 " Don't make backups at all
-set number                " show relative line numbers
-set ruler                         " show row and column in footer
-set scrolloff=5                   " minimum lines above/below cursor
+runtime macros/matchit.vim     " use % to jump between start/end of methods
+set autoindent                 " set auto indent
+set autoread                   " If a file is changed outside of vim, automatically reload it without asking
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
+set clipboard=unnamedplus      " use the system clipboard
+set cursorline                 " highlight current line
+set expandtab                  " use spaces, not tab characters
+set hidden                     " allow unsaved background buffers and remember marks/undo for them
+set history=10000              " remember more commands and search history
+set hlsearch                   " highlight all search matches
+set ignorecase smartcase       " ignore case in search
+set incsearch                  " show search results as I type
+set lazyredraw                 " redraw only when we need to.
+set laststatus=2               " always show status bar
+set listchars=eol:$            " show extra space characters
+set mouse=a                    " enable mouse support
+set nobackup                   " Don't make backups at all
+set nocompatible               " don't need to be compatible with old vim
+set nofoldenable               " disable code folding
+set nojoinspaces               " Insert only one space when joining lines that contain sentence-terminating
+set noshowmode                 " disabled vims builtin mode-indicator (lightline ftw)
+set nowritebackup              " Don't make backups at all
+set number                     " show relative line numbers
+set ruler                      " show row and column in footer
+set scrolloff=5                " minimum lines above/below cursor
 set shiftwidth=2
-set showcmd                       " display incomplete commands
-set showmatch                     " show bracket matches
-set smartcase                     " pay attention to case when caps are used
+set showcmd                    " display incomplete commands
+set showmatch                  " show bracket matches
+set smartcase                  " pay attention to case when caps are used
 set splitbelow
 set splitright
-set t_ti= t_te=                   " Prevent Vim from clobbering the scrollback buffer. See
-set ts=2                          " set indent to 2 spaces
-set ttimeoutlen=100               " decrease timeout for faster insert with 'O'
-set vb                            " enable visual bell (disable audio bell)
-set wildmenu                      " enable bash style tab completion
+set t_ti= t_te=                " Prevent Vim from clobbering the scrollback buffer. See
+set ts=2                       " set indent to 2 spaces
+set ttimeoutlen=100            " decrease timeout for faster insert with 'O'
+set vb                         " enable visual bell (disable audio bell)
+set wildmenu                   " enable bash style tab completion
 set wildmode=list:longest,full
-syntax on                         " show syntax highlighting
+syntax on                      " show syntax highlighting
 
 
 
@@ -54,38 +161,32 @@ syntax on                         " show syntax highlighting
 augroup vimrcEx
   " Clear all autocmds in the group
   autocmd!
-  autocmd FileType text setlocal textwidth=78
+  "for ruby, autoindent with two spaces, always expand tabs
+  autocmd FileType ruby,haml,eruby,yaml,html,javascript,elm,sass,cucumber set ai sw=2 sts=2 et
+
   " Jump to last cursor position unless it's invalid or in an event handler
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
 
-  "for ruby, autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
-  autocmd FileType python set sw=4 sts=4 et
-
-  autocmd! BufRead,BufNewFile *.sass setfiletype sass
-
-  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
-  autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
-
-  " Indent p tags
-  " autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
-
-  " Don't syntax highlight markdown because it's often wrong
-  autocmd! FileType mkd setlocal syn=off
-
-  " Leave the return key alone when in command line windows, since it's used
-  " to run commands there.
-  autocmd! CmdwinEnter * :unmap <cr>
-  autocmd! CmdwinLeave * :call MapCR()
-
-  " *.md is markdown
-  autocmd! BufNewFile,BufRead *.md setlocal ft=
-
-  " indent slim two spaces, not four
-  autocmd! FileType *.slim set sw=2 sts=2 et
+  " autocmd FileType text setlocal textwidth=78
+"
+"  autocmd! BufRead,BufNewFile *.sass setfiletype sass
+"
+"  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
+"  autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+"
+"  " Don't syntax highlight markdown because it's often wrong
+"  autocmd! FileType mkd setlocal syn=off
+"
+"  " Leave the return key alone when in command line windows, since it's used
+"  " to run commands there.
+"  autocmd! CmdwinEnter * :unmap <cr>
+"  autocmd! CmdwinLeave * :call MapCR()
+"
+"  " *.md is markdown
+"  autocmd! BufNewFile,BufRead *.md setlocal ft=
 augroup END
 
 
@@ -121,11 +222,14 @@ highlight Pmenu        ctermbg=240 ctermfg=12
 highlight PmenuSel     ctermbg=3   ctermfg=1
 highlight SpellBad     ctermbg=0   ctermfg=1
 
+highlight GitGutterAdd          ctermfg=green ctermbg=NONE
+highlight GitGutterChange       ctermfg=yellow ctermbg=NONE
+highlight GitGutterDelete       ctermfg=red ctermbg=NONE
+highlight GitGutterChangeDelete ctermfg=yellow ctermbg=NONE
+
 " highlight the status bar when in insert mode
-if version >= 700
-  au InsertLeave * hi StatusLine ctermbg=232 ctermfg=2
-  au InsertEnter * hi StatusLine ctermfg=232 ctermbg=2
-endif
+au InsertLeave * hi StatusLine ctermbg=232 ctermfg=2
+au InsertEnter * hi StatusLine ctermfg=232 ctermbg=2
 
 " highlight trailing spaces in annoying red
 highlight ExtraWhitespace ctermbg=1 guibg=red
@@ -137,23 +241,75 @@ autocmd BufWinLeave * call clearmatches()
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MISC KEY MAPS
+" LEADER COMMANDS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ","           " set leader key to comma
-imap <c-l> <space>=><space>   " insert a hash rocket with <c-l>
-imap <c-c> <esc>              " Can't be bothered to understand ESC vs <c-c> in insert mode
-vnoremap . :norm.<cr>         " map . in visual mode
-map <leader>a :Ag!<space>     " map Silver Searcher
-noremap <C-;> :nohlsearch<CR> " clear the command line and search highlighting
-" search for word under cursor with Silver Searcher
-map <leader>A :Ag! "<C-r>=expand('<cword>')<CR>"
+" map <leader>A :Ag! "<C-r>=expand('<cword>')<CR>"
 
-" clear highlighting
-nnoremap <silent> <Esc><Esc> :nohl<CR>
-
+nnoremap <leader>r :call NumberToggle()<cr>
 " Clipboard
 map <leader>cc :w !xsel -i -b<CR>
 map <leader>pp :r !xsel -p<CR>
+
+" close buffer
+map <leader>w <c-w>c<CR>
+
+" edit vimrc
+map <leader>ev :e ~/.vimrc<CR>
+map <leader>et :e ~/.todo<CR>
+
+map <leader>tt :TagbarToggle<CR>
+
+" execute file if we know how
+map <leader>e :call ExecuteFile(expand("%"))<cr>
+map <leader>n :call RenameFile()<cr>
+
+" run test runner
+map <leader>t :call RunTestFile()<cr>
+map <leader>T :call RunNearestTest()<cr>
+
+" next/previous buffer
+noremap <leader>h :bp<CR>
+noremap <leader>l :bn<CR>
+
+noremap <leader>s :Ack 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MISC KEY MAPS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+imap <c-l> <space>=><space>   " insert a hash rocket with <c-l>
+imap <c-c> <esc>              " Can't be bothered to understand ESC vs <c-c> in insert mode
+vnoremap . :norm.<cr>         " map . in visual mode
+
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  " let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+  let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore-dir ".git" --ignore "**.swp" --hidden'
+
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+else
+  " Fall back to using git ls-files if Ag is not available
+  let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
+endif
+
+let g:ctrlp_mruf_relative = 1
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_cmd = 'CtrlPMixed'
+
+
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+
+" clear highlighting
+nnoremap <silent> <Esc><Esc> :nohl<CR>
 
 " Move around splits with <c-hjkl>
 nnoremap <c-h> <c-w>h
@@ -168,34 +324,7 @@ nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 "nnoremap <silent> <c-o> :TmuxNavigatePrevious<cr>
 
-" ctrlp config
-let g:ctrlp_max_height = 30
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' " use silver searcher for ctrlp
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
-
-" move lines up/down
-"nnoremap <c-m-J> :m .+1<CR>==
-"nnoremap <c-m-K> :m .-2<CR>==
-"inoremap <c-m-J> <Esc>:m .+1<CR>==gi
-"inoremap <c-m-K> <Esc>:m .-2<CR>==gi
-"vnoremap <c-m-J> :m '>+1<CR>gv=gv
-"vnoremap <c-m-K> :m '<-2<CR>gv=gv
-
-
-nnoremap <c-t> :call ReloadChrome()<cr>
-function! ReloadChrome()
-    exec ":silent !bash ~/.chrome-reload.sh "
-endfunction
-
-" toggle spell check with <F5>
-map <F5> :setlocal spell! spelllang=en_us<cr>
-imap <F5> <ESC>:setlocal spell! spelllang=en_us<cr>
-
-" execute file if we know how
-map <leader>e :call ExecuteFile(expand("%"))<cr>
 function! ExecuteFile(filename)
   :w
   :silent !clear
@@ -236,7 +365,9 @@ nmap     <C-F>p <Plug>CtrlSFPwordPath
 nnoremap <C-F>o :CtrlSFOpen<CR>
 nnoremap <C-F>t :CtrlSFToggle<CR>
 inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
-
+nmap     <C-F>l <Plug>CtrlSFQuickfixPrompt
+vmap     <C-F>l <Plug>CtrlSFQuickfixVwordPath
+vmap     <C-F>L <Plug>CtrlSFQuickfixVwordExec
 
 let g:ackprg = 'ag --vimgrep'
 
@@ -252,7 +383,6 @@ function! RenameFile()
     redraw!
   endif
 endfunction
-map <leader>n :call RenameFile()<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -306,22 +436,21 @@ function! RunNearestTest()
   call RunTestFile(":" . spec_line_number . " -b")
 endfunction
 
-" run test runner
-map <leader>t :call RunTestFile()<cr>
-map <leader>T :call RunNearestTest()<cr>
 
-let g:NERDTreeDirArrows = 1
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeWinSize=45
+"let g:NERDTreeDirArrows = 1
+"let g:NERDTreeDirArrowExpandable = '▸'
+"let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeWinSize=40
+let NERDTreeShowHidden=1
+
 silent! map <C-k><C-b> :NERDTreeToggle<CR>
 silent! map <F3> :NERDTreeFind<CR>
+"let g:NERDTreeMapActivateNode="<F3>"
+"let g:NERDTreeMapPreview="<F4>"
 
-let g:NERDTreeMapActivateNode="<F3>"
-let g:NERDTreeMapPreview="<F4>"
 
-noremap <C-tab>   :bp<CR>
-noremap <C-S-tab> :bn<CR>
+let g:elm_format_autosave = 1
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lightline
@@ -385,4 +514,3 @@ augroup reload_vimrc
 	autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
 augroup END
 
-"let g:move_key_modifier = 'S'

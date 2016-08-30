@@ -31,3 +31,6 @@ export SDKMAN_DIR="~/.sdkman"
 [[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && source "~/.sdkman/bin/sdkman-init.sh"
 
 export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
+
+stty -ixon # disable flow control for vim ctrl+s
+
