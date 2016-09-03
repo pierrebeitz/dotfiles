@@ -26,6 +26,9 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'ElmCast/elm-vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'SirVer/ultisnips'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'chriskempson/base16-vim'
 Plugin 'christoomey/vim-tmux-navigator'
@@ -35,6 +38,7 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'godlygeek/tabular'
+Plugin 'honza/vim-snippets'
 Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'majutsushi/tagbar'
@@ -42,21 +46,34 @@ Plugin 'mattn/emmet-vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'othree/html5.vim'
+Plugin 'othree/yajs.vim'
+Plugin 'pangloss/vim-javascript'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 
 " deleted: .vim/bundle/vim-coffee-script
 " deleted: .vim/bundle/vim-rails
+
+" SYNTASTIC
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs = 1
+
+
 
 call     vundle#end()
 filetype plugin indent on    " required
@@ -64,35 +81,29 @@ filetype plugin indent on    " required
 noremap  <silent> <C-S> :w<CR>
 vnoremap <silent> <C-S> <C-C>:w<CR>
 inoremap <silent> <C-S> <C-O>:w<CR>
-nnoremap <leader>ss :mksession<CR>
+"nnoremap <leader>ss :mksession<CR>
 
 noremap  <c-q> :bd<CR>
-noremap  <a-left> :bp<CR>
-noremap  <a-right> :bn<CR>
+noremap  <s-left> :bp<CR>
+noremap  <s-right> :bn<CR>
+nnoremap <Leader>ra :%s/\<<C-r><C-w>\>/
 
-noremap <c-@> :e ~/.todo<CR>
-
-let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutfer_override_sign_column_highlight = 0
 
 
 "space open/closes folds
 nnoremap <space> za
 inoremap jj <esc>
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/build/*,*/elm-stuff/*
+set swapfile
+set dir=/tmp
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/build/*,*/elm-stuff/*,*/build/*
 
 if bufwinnr(1)
   map - <C-W><
   map + <C-W>>
 endif
-
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set number
-  else
-    set relativenumber
-  endif
-endfunc
 
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
@@ -135,7 +146,7 @@ set nofoldenable               " disable code folding
 set nojoinspaces               " Insert only one space when joining lines that contain sentence-terminating
 set noshowmode                 " disabled vims builtin mode-indicator (lightline ftw)
 set nowritebackup              " Don't make backups at all
-set number                     " show relative line numbers
+set relativenumber                     " show relative line numbers
 set ruler                      " show row and column in footer
 set scrolloff=5                " minimum lines above/below cursor
 set shiftwidth=2
@@ -221,11 +232,18 @@ highlight Visual       ctermbg=3   ctermfg=0
 highlight Pmenu        ctermbg=240 ctermfg=12
 highlight PmenuSel     ctermbg=3   ctermfg=1
 highlight SpellBad     ctermbg=0   ctermfg=1
+highlight Error        ctermbg=0   ctermfg=1
+highlight Todo         ctermbg=0   ctermfg=1
+highlight MatchParen   ctermbg=green ctermfg=blue
 
-highlight GitGutterAdd          ctermfg=green ctermbg=NONE
-highlight GitGutterChange       ctermfg=yellow ctermbg=NONE
-highlight GitGutterDelete       ctermfg=red ctermbg=NONE
-highlight GitGutterChangeDelete ctermfg=yellow ctermbg=NONE
+
+highlight GitGutterAdd          ctermbg=NONE
+highlight GitGutterChange       ctermbg=NONE
+highlight GitGutterDelete       ctermbg=NONE
+highlight GitGutterChangeDelete ctermbg=NONE
+
+highlight MBEChanged ctermbg=darkblue
+
 
 " highlight the status bar when in insert mode
 au InsertLeave * hi StatusLine ctermbg=232 ctermfg=2
@@ -246,7 +264,6 @@ autocmd BufWinLeave * call clearmatches()
 let mapleader = ","           " set leader key to comma
 " map <leader>A :Ag! "<C-r>=expand('<cword>')<CR>"
 
-nnoremap <leader>r :call NumberToggle()<cr>
 " Clipboard
 map <leader>cc :w !xsel -i -b<CR>
 map <leader>pp :r !xsel -p<CR>
@@ -342,16 +359,16 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTI-PURPOSE TAB KEY (AUTO-COMPLETE)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! InsertTabWrapper()
-  let col = col('.') - 1
-  if !col || getline('.')[col - 1] !~ '\k'
-    return "\<tab>"
-  else
-    return "\<c-p>"
-  endif
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-n>
+"function! InsertTabWrapper()
+"  let col = col('.') - 1
+"  if !col || getline('.')[col - 1] !~ '\k'
+"    return "\<tab>"
+"  else
+"    return "\<c-p>"
+"  endif
+"endfunction
+"inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+"inoremap <s-tab> <c-n>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CTRLSF
@@ -443,7 +460,7 @@ endfunction
 let g:NERDTreeWinSize=40
 let NERDTreeShowHidden=1
 
-silent! map <C-k><C-b> :NERDTreeToggle<CR>
+silent! map <leader>kb :NERDTreeToggle<CR>
 silent! map <F3> :NERDTreeFind<CR>
 "let g:NERDTreeMapActivateNode="<F3>"
 "let g:NERDTreeMapPreview="<F4>"
