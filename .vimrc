@@ -57,6 +57,7 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 
 " deleted: .vim/bundle/vim-coffee-script
@@ -125,20 +126,13 @@ nmap ga <Plug>(EasyAlign)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
 runtime macros/matchit.vim     " use % to jump between start/end of methods
-set autoindent                 " set auto indent
-set autoread                   " If a file is changed outside of vim, automatically reload it without asking
-set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set clipboard=unnamedplus      " use the system clipboard
 set cursorline                 " highlight current line
 set expandtab                  " use spaces, not tab characters
 set hidden                     " allow unsaved background buffers and remember marks/undo for them
-set history=10000              " remember more commands and search history
 set hlsearch                   " highlight all search matches
 set ignorecase smartcase       " ignore case in search
-set incsearch                  " show search results as I type
 set lazyredraw                 " redraw only when we need to.
-set laststatus=2               " always show status bar
-set listchars=eol:$            " show extra space characters
 set mouse=a                    " enable mouse support
 set nobackup                   " Don't make backups at all
 set nocompatible               " don't need to be compatible with old vim
@@ -147,8 +141,6 @@ set nojoinspaces               " Insert only one space when joining lines that c
 set noshowmode                 " disabled vims builtin mode-indicator (lightline ftw)
 set nowritebackup              " Don't make backups at all
 set relativenumber                     " show relative line numbers
-set ruler                      " show row and column in footer
-set scrolloff=5                " minimum lines above/below cursor
 set shiftwidth=2
 set showcmd                    " display incomplete commands
 set showmatch                  " show bracket matches
@@ -157,9 +149,7 @@ set splitbelow
 set splitright
 set t_ti= t_te=                " Prevent Vim from clobbering the scrollback buffer. See
 set ts=2                       " set indent to 2 spaces
-set ttimeoutlen=100            " decrease timeout for faster insert with 'O'
 set vb                         " enable visual bell (disable audio bell)
-set wildmenu                   " enable bash style tab completion
 set wildmode=list:longest,full
 syntax on                      " show syntax highlighting
 
