@@ -11,9 +11,10 @@ alias hosts='sudo vim /etc/hosts'
 alias server='php -S localhost:8000'
 alias sites="cd /etc/apache2/sites-available"
 alias sitese="cd /etc/apache2/sites-enabled"
-alias t="TERM=screen-256color-bce tmux -u"
+alias t="tmux -u -2"
 alias ts="t choose-session"
 alias www="cd /var/www"
+alias vim="nvim"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
