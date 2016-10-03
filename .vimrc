@@ -22,7 +22,9 @@ set rtp+=~/.vim/bundle/Vundle.vim " set the runtime path to include Vundle and i
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'elmcast/elm-vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-rooter'
 Plugin 'chriskempson/base16-vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'dyng/ctrlsf.vim'
@@ -30,7 +32,6 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'godlygeek/tabular'
-"Plugin 'gregsexton/gitv'
 Plugin 'honza/vim-snippets'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
@@ -39,10 +40,11 @@ Plugin 'justinmk/vim-sneak'
 Plugin 'majutsushi/tagbar'
 Plugin 'mattn/emmet-vim'
 Plugin 'morhetz/gruvbox'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'posva/vim-vue'
 Plugin 'raimondi/delimitMate'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-"Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'sirver/ultisnips'
 Plugin 'sjl/gundo.vim'
@@ -58,8 +60,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'yggdroot/indentLine'
-Plugin 'elmcast/elm-vim'
+
 call     vundle#end()
 
 nnoremap <leader>gr :Git! diff --staged --no-color<cr>
@@ -322,8 +323,6 @@ endfunction
 imap <c-c> <esc>              " Can't be bothered to understand ESC vs <c-c> in insert mode
 vnoremap . :norm.<cr>         " map . in visual mode
 
-
-
 " clear highlighting
 nnoremap <silent> <Esc><Esc> :nohl<CR>
 
@@ -333,41 +332,11 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-j> <c-w>j
 nnoremap <c-l> <c-w>l
 
-nnoremap H :bp <CR>
-nnoremap L :bn <CR>
-
 let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-"nnoremap <silent> <c-o> :TmuxNavigatePrevious<cr>
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CTRL-P
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"if executable('ag')
-"  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-"  " let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-"  let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore-dir ".git" --ignore "**.swp" --hidden'
-"
-"  set grepprg=ag\ --nogroup\ --nocolor
-"
-"  " ag is fast enough that CtrlP doesn't need to cache
-"  let g:ctrlp_use_caching = 0
-"else
-"  " Fall back to using git ls-files if Ag is not available
-"  let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-"  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
-"endif
-"
-"let g:ctrlp_mruf_relative = 1
-"let g:ctrlp_match_window = 'bottom,order:ttb'
-"let g:ctrlp_switch_buffer = 0
-"let g:ctrlp_working_path_mode = 0
-"let g:ctrlp_cmd = 'CtrlPMixed'
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CTRLSF
