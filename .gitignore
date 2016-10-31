@@ -3,6 +3,8 @@
 !.oh-my-zsh
 !.vim
 .vim/.netrwhist
+.vim/undo
+.vim/view
 
 !.aliases
 !.chrome-reload.sh
