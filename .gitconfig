@@ -1,86 +1,103 @@
+[github]
+  user = pierrebeitz
+[user]
+  email = "pb@naymspace.de"
+  name = "Pierre Beitz"
+
+
+
 [alias]
-  a = add -u
-  aa = add --all :/
-  ap = add -u -p
-  b = browse
-	bdm = "!git branch --merged | grep -v '*' | xargs -n 1 git branch -d"
+  a = add -u        # -u: also move removed files to index
+  aa = add --all :/ # add all files project-wide
+  ap = add -u -p    # -p: add hunks interactively one by one
+
+  # branches: delete merged. convenience to clean up local branches
+  bdm = "!git branch --merged | grep -v '*' | xargs -n 1 git branch -d"
+
+  # verbose: show a complete diff below the usual commit message buffer
   c = commit -v
+
+  # show a word-comparing diff
   df = diff --color --color-words --abbrev
-  h = !git head
-  head = !git r -1
-  hp = "!. ~/.githelpers && show_git_head"
-  l = "!. ~/.githelpers && pretty_git_log"
-  la = !git l --all
-	me = !git l --all --author='Pierre' --date-order
-	nuke = !sh -c 'git branch -d $1 && git push origin :$1' -
-	pf = push --force-with-lease
-  pullff = pull --ff-only
-  r = !GIT_NO_PAGER=1 git l -30
-  ra = !git r --all
-	rank = shortlog -sn --no-merges
+
+  # hp = "!. ~/.githelpers && show_git_head"
+
+  l = "!. ~/.githelpers && pretty_git_log"            # show a pretty log
+  la = !git l --all                                   # ... of all branches
+  lme = !git l --all --author='Pierre' --date-order   # ... of only my commits
+  r = !GIT_NO_PAGER=1 git l -30                       # of recent (30) commits
+  ra = !git r --all                                   # of recent commits on all branches
+
+  # remove specified branch here and on origin
+  nuke = !sh -c 'git branch -d $1 && git push origin :$1' -
+
+  # force push if nobody else changed stuff yet
+  pf = push --force-with-lease
+
+  # list authors by # of commits
+  rank = shortlog -sn --no-merges
+
+  # very short status
   s = status -s -b
 
-[color]
-	ui = always
 
+[advice]
+  # show some additional status hints.
+  statusHints = true
+
+[branch]
+  # imply the --track option.
+  # http://stackoverflow.com/a/22147540/1242725
+  autosetupmerge = always
+
+  # git pull always performs a rebase, not a merge
+  autosetuprebase = always
+
+# i need colors to scan things faster
+[color]
+  ui = always
 [color "branch"]
   current = yellow reverse
   local = yellow
   remote = green
-
 [color "diff"]
   meta = yellow bold
   frag = magenta bold
   old = red bold
   new = green bold
-
 [color "status"]
   added = yellow
   changed = green
   untracked = cyan
 
 [core]
-	pager = less -x1,5
-	whitespace = trailing-space,space-before-tab
-  editor = vim -f
-  safecrlf = true
-  excludesfile = ~/.global_gitignore
-  ignorecase = false
   autocrlf = input
+  excludesfile = ~/.global_gitignore           # a global gitignore!
+  ignorecase = false
+  pager = less -x1,5                           # use less as the default pager
+  safecrlf = true
+  # Git will detect whitespace-issues on git diff trying to color them so you
+  # can possibly fix them before you commit
+  whitespace = trailing-space,space-before-tab
 
-[github]
-  user = pierrebeitz
+[diff]
+  # Whether and how Git detects renames. If set to "copies", Git will detect copies, as well.
+  renames = copies
+
+[fetch]
+  # delete untouched branches that have been remotely removed
+  prune = true
 
 [merge]
   log = true
-	tool = meld
+  tool = meld
 
 [push]
-	default = current
+  # push the current branch to update a branch with the same name on the receiving end
+  default = current
 
-[user]
-  name = "Pierre Beitz"
-  email = "pb@naymspace.de"
-
-[filter "media"]
-	clean = git media clean %f
-	smudge = git media smudge %f
-	required = true
-
-[advice]
-	statusHints = true
-
-[diff]
-	renames = copies
-[branch]
-	autosetupmerge = true
 [rerere]
-	enabled = true
-[fetch]
-	prune = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  # "reuse recorded resolution" - allows Git to remember how you've resolved a
+  # hunk conflict so that the next time it sees the same conflict, it can
+  # automatically resolve it for you
+  enabled = true
