@@ -1,6 +1,8 @@
 *.orig
 *.swo
 *.swp
+.vscode/
+.idea
 *~
 .DS_Store
 .DS_Store?
@@ -15,9 +17,13 @@ Thumbs.db
 \#*\#
 ehthumbs.db
 
+.bundle/
 *.sublime-*
 *.todo
 .gitmessage.txt
 .mix_tasks
+tags
 
 config/initializers/ecryptfs.rb
+Session.vim
+.byebug_history

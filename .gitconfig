@@ -48,10 +48,10 @@
 [branch]
   # imply the --track option.
   # http://stackoverflow.com/a/22147540/1242725
-  autosetupmerge = always
+  autosetupmerge = true
 
   # git pull always performs a rebase, not a merge
-  autosetuprebase = always
+  ; autosetuprebase = always
 
 # i need colors to scan things faster
 [color]

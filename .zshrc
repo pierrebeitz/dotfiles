@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
-plugins=(pass gulp mix-fast mix cp git-remote-branch gitignore mina nvm z zsh_reload git git-flow alias-tips docker docker-compose ssh-agent)
+plugins=(pass gulp mix-fast mix cp git-remote-branch gitignore mina nvm z zsh_reload git git-flow alias-tips docker docker-compose)
 # git-extras
 source $ZSH/oh-my-zsh.sh
 
@@ -43,3 +43,7 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 # sudo -H pip3 install thefuck --upgrade
 eval $(thefuck --alias)
 export PATH=$HOME/.bin:$PATH
+
+# tmux standy-fix
+echo $DISPLAY > ~/.display.txt
+alias up_disp='export DISPLAY=`cat ~/.display.txt`'
