@@ -100,4 +100,4 @@
   # automatically resolve it for you
   enabled = true
 [rebase]
-	autosquash = true
+  autosquash = true
