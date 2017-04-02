@@ -4,8 +4,6 @@
   email = "pb@naymspace.de"
   name = "Pierre Beitz"
 
-
-
 [alias]
   a = add -u        # -u: also move removed files to index
   aa = add --all :/ # add all files project-wide
@@ -55,7 +53,7 @@
 
 # i need colors to scan things faster
 [color]
-  ui = always
+  # ui = always
 [color "branch"]
   current = yellow reverse
   local = yellow
@@ -101,3 +99,5 @@
   # hunk conflict so that the next time it sees the same conflict, it can
   # automatically resolve it for you
   enabled = true
+[rebase]
+	autosquash = true

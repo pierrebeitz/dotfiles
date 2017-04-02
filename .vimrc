@@ -47,6 +47,7 @@ Plugin 'elmcast/elm-vim'
 " Plugin 'Shougo/deoplete.nvim'
 Plugin 'majutsushi/tagbar'
 Plugin 'bitterjug/vim-tagbar-ctags-elm'
+Plugin 'dhruvasagar/vim-table-mode'
 call vundle#end()
 
 
@@ -129,6 +130,8 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs = 1
 
 let g:sneak#streak = 1
+
+let g:table_mode_corner="|"
 
 let g:tmux_navigator_no_mappings = 1
 

@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
-plugins=(pass gulp mix-fast mix cp git-remote-branch gitignore mina nvm z zsh_reload git git-flow alias-tips docker docker-compose)
+plugins=(pass gulp mix-fast mix cp git-remote-branch gitignore mina nvm z zsh_reload git git-flow alias-tips docker docker-compose fasd)
 # git-extras
 source $ZSH/oh-my-zsh.sh
 
@@ -23,14 +23,12 @@ bindkey '^[[1;9D' backward-word
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
-export PATH=/usr/local/sbin:~/bin:$PATH
 
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="~/.sdkman"
 [[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && source "~/.sdkman/bin/sdkman-init.sh"
 
-export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
 
 stty -ixon # disable flow control for vim ctrl+s
 
@@ -40,10 +38,10 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# sudo -H pip3 install thefuck --upgrade
-eval $(thefuck --alias)
-export PATH=$HOME/.bin:$PATH
 
 # tmux standy-fix
 echo $DISPLAY > ~/.display.txt
 alias up_disp='export DISPLAY=`cat ~/.display.txt`'
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
