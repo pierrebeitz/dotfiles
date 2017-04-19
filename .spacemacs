@@ -32,7 +32,9 @@ values."
 
    dotspacemacs-configuration-layers
    '(
+     rust
      go
+     crystal
      elm
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -343,90 +345,104 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-    (load-theme 'gruvbox t)
+  (load-theme 'gruvbox t)
 
-    (global-set-key (kbd "C-s") 'save-buffer)
+  (global-set-key (kbd "C-s") 'save-buffer)
 
-    (global-set-key (kbd "C-i") 'evil-jump-forward)
+  (global-set-key (kbd "C-i") 'evil-jump-forward)
 
-    (global-set-key (kbd "C-h") 'evil-window-left)
-    (global-set-key (kbd "C-l") 'evil-window-right)
-    (global-set-key (kbd "C-j") 'evil-window-down)
-    (global-set-key (kbd "C-k") 'evil-window-up)
-
-
-    (define-key evil-normal-state-map "j" 'evil-next-visual-line)
-    (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
-    (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-    (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-
-    (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-    (add-hook 'ruby-mode-hook   #'(lambda () (modify-syntax-entry ?_ "w")))
-    (add-hook 'js2-mode-hook    #'(lambda () (modify-syntax-entry ?_ "w")))
+  (global-set-key (kbd "C-h") 'evil-window-left)
+  (global-set-key (kbd "C-l") 'evil-window-right)
+  (global-set-key (kbd "C-j") 'evil-window-down)
+  (global-set-key (kbd "C-k") 'evil-window-up)
 
 
-    (setq org-agenda-files '("~/org")
-          org-agenda-ndays 7
-          org-agenda-skip-deadline-if-done t
-          org-agenda-show-all-dates t
-          org-agenda-skip-scheduled-if-done t
-          org-timer-default-timer 25
+  (define-key evil-normal-state-map "j" 'evil-next-visual-line)
+  (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
+  (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+  (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
-          elm-format-on-save t
-          org-agenda-todo-ignore-scheduled t
-          org-agenda-todo-ignore-deadlines t
-          org-agenda-tags-todo-honor-ignore-options t
-
-          org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)"))
-
-          browse-url-browser-function 'browse-url-generic
-          browse-url-generic-program "google-chrome"
-    )
-
-    (setq create-lockfiles nil) ; Don't create lockfiles
-
-    (setq magit-repository-directories '("~/code/"))
-    (setq tramp-ssh-controlmaster-options
-          "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-
-    (setq-default js2-basic-offset 2)
-    (setq-default js-indent-level 2)
-    (setq-default flycheck-disabled-checkers '(javascript-jscs))
-
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
-
-    (add-hook 'robe-mode-hook 'ac-robe-setup)
-    (add-hook 'ruby-mode-hook 'robe-mode)
-    (setq browse-url-browser-function 'browse-url-generic
-          engine/browser-function 'browse-url-generic
-          browse-url-generic-program "google-chrome")
-    (setq-default git-magit-status-fullscreen t)
-
-    (editorconfig-mode 1)
-    (autoload 'apib-mode "apib-mode"
-      "Major mode for editing API Blueprint files" t)
-    (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
+  (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  (add-hook 'ruby-mode-hook   #'(lambda () (modify-syntax-entry ?_ "w")))
+  (add-hook 'js2-mode-hook    #'(lambda () (modify-syntax-entry ?_ "w")))
 
 
-    (evil-leader/set-key
-      "jj" 'org-journal-new-entry)
-    (add-hook 'org-journal-mode-hook 'turn-on-auto-fill)
-    (add-hook 'org-journal-mode-hook 'flyspell-mode)
-    (add-hook 'org-pomodoro-finished-hook (lambda()
-                                            (org-journal-new-entry nil)
-                                            ))
+  (setq org-agenda-files '("~/org")
+        org-agenda-ndays 7
+        org-agenda-skip-deadline-if-done t
+        org-agenda-show-all-dates t
+        org-agenda-skip-scheduled-if-done t
+        org-timer-default-timer 25
 
-    ;; Show agenda every morning
-    (defvar daily-agenda-timer (parse-relative-time "11:00 am"))
-    (defun show-daily-agenda ()
-      (unless (time-less-p (current-time) daily-agenda-timer)
-        (setq daily-agenda-timer (time-add daily-agenda-timer
-                                           (seconds-to-time 86400)))
-        (org-agenda-list)))
+        elm-format-on-save t
+        org-agenda-todo-ignore-scheduled t
+        org-agenda-todo-ignore-deadlines t
+        org-agenda-tags-todo-honor-ignore-options t
 
-    (add-hook 'display-time-hook 'show-daily-agenda)
-    (display-time)
-)
+        org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)"))
+
+        browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "google-chrome"
+        )
+
+  (setq create-lockfiles nil) ; Don't create lockfiles
+
+  (setq magit-repository-directories '("~/code/"))
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+
+    (evil-leader/set-key "ot" (lambda() (interactive)(find-file "~/org/TODOs.org")))
+    (evil-leader/set-key "op" (lambda() (interactive)(find-file "~/org/privat.org")))
+
+    (define-key evil-normal-state-map "\M-p" 'evil-paste-pop)
+
+    (define-key evil-normal-state-map "\C-p" 'helm-projectile-find-file)
+
+
+  (setq-default js2-basic-offset 2)
+  (setq-default js-indent-level 2)
+  (setq-default flycheck-disabled-checkers '(javascript-jscs))
+
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+
+  (add-hook 'robe-mode-hook 'ac-robe-setup)
+  (add-hook 'ruby-mode-hook 'robe-mode)
+  (setq browse-url-browser-function 'browse-url-generic
+        engine/browser-function 'browse-url-generic
+        browse-url-generic-program "google-chrome")
+  (setq-default git-magit-status-fullscreen t)
+
+  (editorconfig-mode 1)
+  (autoload 'apib-mode "apib-mode"
+    "Major mode for editing API Blueprint files" t)
+  (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
+
+  (evil-leader/set-key "oj" 'org-journal-new-entry)
+  (add-hook 'org-journal-mode-hook 'turn-on-auto-fill)
+  (add-hook 'org-journal-mode-hook 'flyspell-mode)
+  (add-hook 'org-pomodoro-finished-hook (lambda()
+                                          (org-journal-new-entry nil)
+                                          ))
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+
+  (define-key evil-normal-state-map "ZZ" 'evil-write)
+
+  (define-key evil-normal-state-map (kbd "C->") 'evil-window-increase-width)
+  (define-key evil-normal-state-map (kbd "C-<") 'evil-window-decrease-width)
+
+
+  ;; Show agenda every morning
+  (defvar daily-agenda-timer (parse-relative-time "11:00 am"))
+  (defun show-daily-agenda ()
+    (unless (time-less-p (current-time) daily-agenda-timer)
+      (setq daily-agenda-timer (time-add daily-agenda-timer
+                                         (seconds-to-time 86400)))
+      (org-agenda-list)))
+
+  (add-hook 'display-time-hook 'show-daily-agenda)
+  (display-time)
+  )
 
 
 ;; Do not write anything past this comment. This is where Emacs will

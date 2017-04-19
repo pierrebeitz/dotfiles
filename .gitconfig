@@ -14,6 +14,7 @@
 
   # verbose: show a complete diff below the usual commit message buffer
   c = commit -v
+  cf = commit --fixup
 
   # show a word-comparing diff
   df = diff --color --color-words --abbrev

@@ -27,3 +27,8 @@ alias aptin="sudo apt-get install"
 alias aptup="sudo apt-get update && sudo apt-get upgrade"
 alias alog="tail /var/log/apache2/error.log"
 alias alogl="less /var/log/apache2/error.log"
+
+function rev() {
+  git log --oneline | fzf | cut -f1 -d' '
+}
+
