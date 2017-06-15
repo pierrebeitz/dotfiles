@@ -23,7 +23,8 @@ bindkey '^[[1;9D' backward-word
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
-
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="~/.sdkman"

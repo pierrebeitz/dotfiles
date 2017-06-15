@@ -28,7 +28,15 @@ alias aptup="sudo apt-get update && sudo apt-get upgrade"
 alias alog="tail /var/log/apache2/error.log"
 alias alogl="less /var/log/apache2/error.log"
 
+function sel() {
+  fzf | cut -f1 -d' '
+}
+
+function sel3() {
+  fzf | cut -f3 -d' '
+}
+
 function rev() {
-  git log --oneline | fzf | cut -f1 -d' '
+  git log --oneline | sel
 }
 

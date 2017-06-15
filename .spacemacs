@@ -29,64 +29,53 @@ values."
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
-
    dotspacemacs-configuration-layers
    '(
-     rust
-     go
-     crystal
-     elm
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t
-                      )
-     better-defaults
-     elixir
-     emacs-lisp
-     fasd
-     (git :variables
-          git-magit-status-fullscreen t)
-     helm
-     html
-     javascript
-     markdown
-     org
-     php
-     plantuml
-     (ruby :variables
-           ruby-version-manager 'rvm)
-     ruby-on-rails
-     search-engine
-     speed-reading
-     sql
-     syntax-checking
-     themes-megapack
-     typescript
-     version-control
-     yaml
-     (shell :variables
-            ;; shell-default-height 30
-            shell-default-term-shell "/bin/zsh"
-            shell-default-shell 'term
-            shell-default-position 'top)
-     ;; spell-checking
-     )
+      ;; ----------------------------------------------------------------
+      ;; Example of useful layers you may want to use right away.
+      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+      ;; <M-m f e R> (Emacs style) to install them.
+      ;; ----------------------------------------------------------------
+
+      (auto-completion :variables
+        auto-completion-enable-sort-by-usage t
+        auto-completion-enable-snippets-in-popup t)
+
+
+      better-defaults
+      elixir
+      elm
+      emacs-lisp
+      (git :variables
+            git-magit-status-fullscreen t)
+        helm
+        html
+      javascript
+      markdown
+      org
+      php
+      (ruby :variables ruby-version-manager 'rvm)
+      ruby-on-rails
+      typescript
+      (shell :variables
+              ;; shell-default-height 30
+              shell-default-term-shell "/bin/zsh"
+              shell-default-shell 'term
+              shell-default-position 'top)
+      syntax-checking
+      yaml
+   )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     apib-mode
+     ;; apib-mode
      editorconfig
      gruvbox-theme
      org-journal
-     robe
+     prettier-js
    )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -159,11 +148,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(tangotango
-                         gruvbox
-                         spacemacs-light
-                         monokai
-                         )
+   dotspacemacs-themes '(spacemacs-dark
+                         spacemacs-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -214,7 +200,7 @@ values."
    dotspacemacs-display-default-layout nil
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -225,7 +211,7 @@ values."
    ;; (default 'cache)
    dotspacemacs-auto-save-file-location 'cache
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
-   dotspacemacs-max-rollback-slots 10
+   dotspacemacs-max-rollback-slots 5
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
    dotspacemacs-helm-resize nil
    ;; if non nil, the helm header is hidden when there is only one source.
@@ -326,7 +312,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'all
+   dotspacemacs-whitespace-cleanup nil
    ))
 
 (defun dotspacemacs/user-init ()
@@ -345,10 +331,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (load-theme 'gruvbox t)
+  ;; (load-theme 'gruvbox t)
 
   (global-set-key (kbd "C-s") 'save-buffer)
-
   (global-set-key (kbd "C-i") 'evil-jump-forward)
 
   (global-set-key (kbd "C-h") 'evil-window-left)
@@ -356,94 +341,98 @@ you should place your code here."
   (global-set-key (kbd "C-j") 'evil-window-down)
   (global-set-key (kbd "C-k") 'evil-window-up)
 
+  ;; (define-key evil-motion-state-map (kbd "C-h") #'evil-window-left)
+  ;; (define-key evil-motion-state-map (kbd "C-j") #'evil-window-down)
+  ;; (define-key evil-motion-state-map (kbd "C-k") #'evil-window-up)
+  ;; (define-key evil-motion-state-map (kbd "C-l") #'evil-window-right)
 
-  (define-key evil-normal-state-map "j" 'evil-next-visual-line)
-  (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
   (define-key evil-visual-state-map "j" 'evil-next-visual-line)
   (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+  ;; (define-key evil-normal-state-map "j" 'evil-next-visual-line)
+  ;; (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
+  ;; (define-key evil-normal-state-map "ZZ" 'evil-write)
+  ;; (define-key evil-normal-state-map (kbd "C->") 'evil-window-increase-width)
+  ;; (define-key evil-normal-state-map (kbd "C-<") 'evil-window-decrease-width)
 
-  (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  (add-hook 'ruby-mode-hook   #'(lambda () (modify-syntax-entry ?_ "w")))
-  (add-hook 'js2-mode-hook    #'(lambda () (modify-syntax-entry ?_ "w")))
+  (define-key evil-normal-state-map "\M-p" 'evil-paste-pop)
+  (define-key evil-normal-state-map "\C-p" 'helm-projectile-find-file)
 
+  (when (eq dotspacemacs-editing-style 'vim)
+    (evil-define-key 'insert term-raw-map
+      (kbd "C-k") 'evil-window-up
+      (kbd "C-j") 'evil-window-down))
+  (evil-define-key 'normal term-raw-map
+    (kbd "C-k") 'evil-window-up
+    (kbd "C-j") 'evil-window-down)
 
-  (setq org-agenda-files '("~/org")
-        org-agenda-ndays 7
-        org-agenda-skip-deadline-if-done t
-        org-agenda-show-all-dates t
-        org-agenda-skip-scheduled-if-done t
-        org-timer-default-timer 25
+  ;; projectile-switch-project-action 'neotree-projectile-action
+  (setq
+    ;; browse-url-browser-function 'browse-url-generic
+    ;; browse-url-generic-program "google-chrome"
+    create-lockfiles nil ;; Don't create lockfiles
+    elm-format-on-save t
+    ;; engine/browser-function 'browse-url-generic
+    ;; magit-repository-directories '("~/code/")
+    org-agenda-files '("~/org")
+    org-agenda-ndays 7
+    org-agenda-skip-deadline-if-done t
+    org-agenda-skip-scheduled-if-done t
+    org-agenda-tags-todo-honor-ignore-options t
+    org-agenda-todo-ignore-deadlines t
+    org-agenda-todo-ignore-scheduled t
+    org-confirm-babel-evaluate nil
+    ;; org-default-notes-file (concat org-directory "/notes.org")
+    org-timer-default-timer 25
+    org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)"))
+    ;; tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no"
+    )
 
-        elm-format-on-save t
-        org-agenda-todo-ignore-scheduled t
-        org-agenda-todo-ignore-deadlines t
-        org-agenda-tags-todo-honor-ignore-options t
+  ;; (add-hook 'org-journal-mode-hook 'flyspell-mode)
+  ;; (add-hook 'org-journal-mode-hook 'turn-on-auto-fill)
+  ;; (add-hook 'org-pomodoro-finished-hook (lambda() (org-journal-new-entry nil)))
+  ;; (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'js2-mode-hook    #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'ruby-mode-hook   #'(lambda () (modify-syntax-entry ?_ "w")))
+  ;; (add-hook 'ruby-mode-hook 'robe-mode)
+  ;; (add-hook 'robe-mode-hook 'ac-robe-setup)
+  ;; (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
 
-        org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)"))
+  ;; (autoload 'apib-mode "apib-mode" "Major mode for editing API Blueprint files" t)
 
-        browse-url-browser-function 'browse-url-generic
-        browse-url-generic-program "google-chrome"
-        )
-
-  (setq create-lockfiles nil) ; Don't create lockfiles
-
-  (setq magit-repository-directories '("~/code/"))
-  (setq tramp-ssh-controlmaster-options
-        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-
-    (evil-leader/set-key "ot" (lambda() (interactive)(find-file "~/org/TODOs.org")))
-    (evil-leader/set-key "op" (lambda() (interactive)(find-file "~/org/privat.org")))
-
-    (define-key evil-normal-state-map "\M-p" 'evil-paste-pop)
-
-    (define-key evil-normal-state-map "\C-p" 'helm-projectile-find-file)
-
-
-  (setq-default js2-basic-offset 2)
-  (setq-default js-indent-level 2)
-  (setq-default flycheck-disabled-checkers '(javascript-jscs))
-
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-
-  (add-hook 'robe-mode-hook 'ac-robe-setup)
-  (add-hook 'ruby-mode-hook 'robe-mode)
-  (setq browse-url-browser-function 'browse-url-generic
-        engine/browser-function 'browse-url-generic
-        browse-url-generic-program "google-chrome")
-  (setq-default git-magit-status-fullscreen t)
+  (display-time)
 
   (editorconfig-mode 1)
-  (autoload 'apib-mode "apib-mode"
-    "Major mode for editing API Blueprint files" t)
-  (add-to-list 'auto-mode-alist '("\\.apib\\'" . apib-mode))
 
-  (evil-leader/set-key "oj" 'org-journal-new-entry)
-  (add-hook 'org-journal-mode-hook 'turn-on-auto-fill)
-  (add-hook 'org-journal-mode-hook 'flyspell-mode)
-  (add-hook 'org-pomodoro-finished-hook (lambda()
-                                          (org-journal-new-entry nil)
-                                          ))
-  (setq tramp-ssh-controlmaster-options
-        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
 
-  (define-key evil-normal-state-map "ZZ" 'evil-write)
+  (defun pierre/org-todo () (interactive)(find-file "~/org/TODOs.org"))
+  (evil-leader/set-key "ot" 'pierre/org-todo)
 
-  (define-key evil-normal-state-map (kbd "C->") 'evil-window-increase-width)
-  (define-key evil-normal-state-map (kbd "C-<") 'evil-window-decrease-width)
+  ;; (setq-default js2-basic-offset 2)
+  ;; (setq-default js-indent-level 2)
+  (setq-default flycheck-disabled-checkers '(javascript-jscs))
+  ;; (setq-default git-magit-status-fullscreen t)
+
+  (defun pierre/org-agenda (&optional arg)
+    (interactive "P")
+    (let ((org-agenda-tag-filter-preset '("-private")))
+      (org-agenda arg "a")))
+
+  (bind-key "<f5>" 'pierre/org-agenda)
+  (bind-key "<f6>" 'org-todo-list)
+
+  ;; active Org-babel languages
+  (add-to-list 'org-babel-load-languages '(plantuml . t))
+  (setq org-plantuml-jar-path (expand-file-name "~/code/helpers/plantuml.jar"))
 
 
-  ;; Show agenda every morning
-  (defvar daily-agenda-timer (parse-relative-time "11:00 am"))
-  (defun show-daily-agenda ()
-    (unless (time-less-p (current-time) daily-agenda-timer)
-      (setq daily-agenda-timer (time-add daily-agenda-timer
-                                         (seconds-to-time 86400)))
-      (org-agenda-list)))
 
-  (add-hook 'display-time-hook 'show-daily-agenda)
-  (display-time)
-  )
 
+  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t) (ruby . t)))
+
+
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -452,13 +441,8 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767" default)))
  '(evil-want-Y-yank-to-eol nil)
- '(org-agenda-files
-   (quote
-    ("/home/pierre/org/TODOs.org" "/home/pierre/org/cms.org" "/home/pierre/org/privat.org")))
+ '(org-agenda-files (quote ("/home/pierre/org/TODOs.org")))
  '(org-capture-templates
    (quote
     (("c" "Inbox" entry
