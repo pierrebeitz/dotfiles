@@ -1,7 +1,7 @@
 /*
 !.base16
 !.oh-my-zsh
-!.vim
+!.vim/bundle/Vundle.vim
 .vim/.netrwhist
 .vim/undo
 .vim/view
