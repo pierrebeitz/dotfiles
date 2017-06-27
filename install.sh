@@ -23,7 +23,11 @@ fi
 # set zsh as a default shell for the current user
 sudo chsh -s $(which zsh) $USER
 
+# Vim Plugin-Manager
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+# fzf
 /usr/local/opt/fzf/install
-
