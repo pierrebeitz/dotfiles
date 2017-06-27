@@ -11,7 +11,7 @@ source $ZSH/oh-my-zsh.sh
 # Narrow that down to allow easier skipping through words via M-f and M-b.
 export WORDCHARS='*?[]~&;!$%^<>'
 
-source ~/.aliases
+source ~/.aliases_and_stuff
 function f() {
   find . -name "$1"
 }
@@ -47,3 +47,4 @@ alias up_disp='export DISPLAY=`cat ~/.display.txt`'
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+export GPG_TTY=$(tty)

@@ -3,7 +3,7 @@ tap 'caskroom/versions'
 tap 'caskroom/fonts'
 tap 'thoughtbot/formulae'
 tap 'neovim/neovim'
-# tap 'ethereum/ethereum'
+tap 'ethereum/ethereum'
 
 brew 'rcm'
 brew 'mas'
@@ -22,7 +22,8 @@ brew 'mosh'
 brew 'asciinema'
 brew 'coreutils'
 brew 'gpg'
-# brew 'ethereum'
+brew 'ethereum'
+brew 'llvm'
 
 brew 'zsh'
 
@@ -52,7 +53,6 @@ brew 'sqlite'
 
 # brew 'gcc'
 
-brew 'rvm'
 brew 'npm'
 
 brew 'kubectl'
@@ -90,6 +90,8 @@ cask 'pgadmin3'
 
 cask 'google-chrome'
 
+cask 'helium'
+
 # quick look plugins
 # https://github.com/sindresorhus/quick-look-plugins
 
@@ -117,7 +119,4 @@ cask 'font-hack'
 
 # apps from appstore
 
-# mas 'Xcode', id: 497799835
-mas 'Helium', id: 1054607607
-mas 'Noizio', id: 928871589
 mas 'Monosnap', id: 540348655

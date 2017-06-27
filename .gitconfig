@@ -3,6 +3,7 @@
 [user]
   email = "pb@naymspace.de"
   name = "Pierre Beitz"
+  signingkey = 98F822A8
 
 [alias]
   a = add -u        # -u: also move removed files to index
@@ -69,6 +70,10 @@
   changed = green
   untracked = cyan
 
+[commit]
+  template = ~/.gitmessage
+  gpgsign = true
+
 [core]
   autocrlf = input
   excludesfile = ~/.global_gitignore           # a global gitignore!
@@ -100,5 +105,6 @@
   # hunk conflict so that the next time it sees the same conflict, it can
   # automatically resolve it for you
   enabled = true
+
 [rebase]
   autosquash = true
