@@ -5,6 +5,10 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
 plugins=(pass gulp mix-fast mix cp git-remote-branch gitignore mina nvm z zsh_reload git git-flow alias-tips docker docker-compose fasd)
 # git-extras
+
+# custom completions
+fpath=(~/.zsh/completions $fpath)
+
 source $ZSH/oh-my-zsh.sh
 
 # By default, zsh considers many characters part of a word (e.g., _ and -).
@@ -12,6 +16,7 @@ source $ZSH/oh-my-zsh.sh
 export WORDCHARS='*?[]~&;!$%^<>'
 
 source ~/.aliases_and_stuff
+source ~/.secret_stuff
 function f() {
   find . -name "$1"
 }
@@ -47,4 +52,5 @@ alias up_disp='export DISPLAY=`cat ~/.display.txt`'
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
-export GPG_TTY=$(tty)
+
+

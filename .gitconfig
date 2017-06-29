@@ -3,7 +3,7 @@
 [user]
   email = "pb@naymspace.de"
   name = "Pierre Beitz"
-  signingkey = 98F822A8
+  signingkey = 5A93CE002E015DB336BA2F33EC7A7E3A98F822A8
 
 [alias]
   a = add -u        # -u: also move removed files to index
