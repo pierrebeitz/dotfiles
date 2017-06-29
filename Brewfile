@@ -4,12 +4,14 @@ tap 'caskroom/fonts'
 tap 'thoughtbot/formulae'
 tap 'neovim/neovim'
 tap 'ethereum/ethereum'
+tap 'homebrew/php'
 
 brew 'rcm'
 brew 'mas'
 
 brew 'elixir'
 brew 'flow'
+brew 'php'
 
 brew 'git'
 brew 'git-extras'
