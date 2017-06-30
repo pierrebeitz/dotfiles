@@ -1,3 +1,6 @@
+alias dw="docker-compose exec web"
+alias dc="docker-compose"
+alias dce="docker-compose exec"
 alias g="git"
 alias gcd="git checkout develop"
 alias gcm="git checkout master"
