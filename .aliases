@@ -7,6 +7,8 @@ alias gcm="git checkout master"
 alias gdc="git diff --cached"
 alias gdcs="git diff --cached --shortstat"
 alias gds="git diff --shortstat"
+alias gl="fshow"
+alias gla="fshow --all"
 alias hosts='sudo vim /etc/hosts'
 alias p="cd ~/projects"
 alias t="tmux -u -2"
@@ -18,19 +20,4 @@ alias ssh="sshrc"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
-
-# pipe in stuff, select via fzf and cut the `$1`st element
-function fcut() {
-  local i="${1:-1}"
-  fzf | cut -f$i -d' '
-}
-
-# gets a git-rev. e.g. git rebase -i `rev`
-function rev() {
-  git log --oneline | fcut
-}
-
-# fb - checkout git branch
-fb() {
-  git checkout $(git branch --all | grep -v HEAD | fcut 3 | sed 's/remotes\/origin\///')
-}
+alias fixup="git commit --fixup=\`rev\`"
