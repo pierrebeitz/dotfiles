@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
-plugins=(pass gulp mix-fast mix cp git-remote-branch gitignore mina nvm z zsh_reload git git-flow alias-tips docker docker-compose fasd)
+plugins=(alias-tips cp docker docker-compose fasd git git-extras git-flow mina mix mix-fast pass yarn z)
 # git-extras
 
 # custom completions
@@ -63,27 +63,37 @@ export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat 
 # cut the `$1`st element
 function c() {
   local i="${1:-1}"
-  cut -f$i -d' '
+  tr -s " " | cut -f$i -d' '
 }
 
 # select a git-rev. e.g. git rebase -i `rev`
 function rev() {
-  git log --oneline | fzf | c 1
+  git log --oneline "$@" |
+  fzf | c 1
 }
 
 # select a docker-container
-function fps(){
-  docker ps | tail -n +2 | fzf | c 1
+function dps() {
+  docker ps "$@" |
+  fzf | c 1
+}
+
+function drmi() {
+  docker rmi $(docker images | fzf |  c 3)
+}
+function drm() {
+  docker rm $(docker ps -a | fzf | c 1)
 }
 
 # fb - checkout git branch
-fco() {
-  git checkout $(git branch --all | grep -v HEAD | fzf | c 3 | sed 's/remotes\/origin\///')
+function gfco() {
+  git checkout $(git branch --all | grep -v HEAD | fzf | c 2 | sed 's/remotes\/origin\///')
 }
 
-# git commit browser
-fshow() {
-  git log --graph $1 --color=always \
+# git commit browser (fzf log)
+unalias glog
+function glog() {
+  git log --graph --color=always \
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
   fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` \
       --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
@@ -91,4 +101,9 @@ fshow() {
       --bind 'ctrl-m:execute:
                 echo {} | grep -o "[a-f0-9]\{7\}" |
                 xargs -I % sh -c "git show --color=always % | less -R"'
+}
+
+unalias gl
+function gl() {
+  glog --all "$@"
 }
