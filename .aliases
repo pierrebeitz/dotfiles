@@ -12,6 +12,7 @@ alias p="cd ~/projects"
 alias t="tmux -u -2"
 alias e="emacsclient"
 alias ssh="sshrc"
+alias ta="tig --all"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
