@@ -42,6 +42,7 @@ values."
          auto-completion-enable-snippets-in-popup t)
 
        better-defaults
+       django
        elixir
        elm
        emacs-lisp
@@ -53,6 +54,8 @@ values."
        markdown
        org
        php
+       (python :variables python-enable-yapf-format-on-save t)
+       speed-reading
        (ruby :variables ruby-version-manager 'rvm)
        ruby-on-rails
        typescript
@@ -76,6 +79,8 @@ values."
        org-journal
        plantuml-mode
        prettier-js
+       rainbow-mode
+       vue-mode
        )
     ;; A list of packages that cannot be updated.
     dotspacemacs-frozen-packages '()
@@ -333,6 +338,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; (load-theme 'gruvbox t)
 
+
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-i") 'evil-jump-forward)
 
@@ -340,6 +346,14 @@ you should place your code here."
   (global-set-key (kbd "C-l") 'evil-window-right)
   (global-set-key (kbd "C-j") 'evil-window-down)
   (global-set-key (kbd "C-k") 'evil-window-up)
+
+  (global-set-key (kbd "<C-S-up>") 'shrink-window)
+  (global-set-key (kbd "<C-S-down>") 'enlarge-window)
+  (global-set-key (kbd "<C-S-left>") 'shrink-window-horizontally)
+  (global-set-key (kbd "<C-S-right>") 'enlarge-window-horizontally)
+
+
+
 
   ;; (define-key evil-motion-state-map (kbd "C-h") #'evil-window-left)
   ;; (define-key evil-motion-state-map (kbd "C-j") #'evil-window-down)
@@ -375,16 +389,29 @@ you should place your code here."
     ;; magit-repository-directories '("~/code/")
     org-agenda-files '("~/org")
     org-agenda-ndays 7
-    org-agenda-skip-deadline-if-done t
-    org-agenda-skip-scheduled-if-done t
+    ; org-agenda-skip-deadline-if-done t
+    ; org-agenda-skip-scheduled-if-done t
     org-agenda-tags-todo-honor-ignore-options t
     org-agenda-todo-ignore-deadlines t
     org-agenda-todo-ignore-scheduled t
     org-confirm-babel-evaluate nil
+
     ;; org-default-notes-file (concat org-directory "/notes.org")
     org-timer-default-timer 25
     org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d)" "CANCELED(c@)"))
     ;; tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no"
+
+    neo-hidden-regexp-list '("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "^__pycache__" "^node_modules" "^elm_stuff")
+
+
+    ;; prettier settings
+    prettier-js-args '(
+      "--trailing-comma" "all"
+      "--bracket-spacing" "true"
+      "--semi" "true"
+      "--parser" "typescript"
+      "--single-quote" "true"
+      )
     )
 
   ;; (add-hook 'org-journal-mode-hook 'flyspell-mode)
@@ -404,7 +431,7 @@ you should place your code here."
   (editorconfig-mode 1)
 
   (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
+  ;; (add-hook 'web-mode-hook 'prettier-js-mode)
 
   (defun pierre/org-todo () (interactive)(find-file "~/org/TODOs.org"))
   (evil-leader/set-key "ot" 'pierre/org-todo)
@@ -433,24 +460,29 @@ you should place your code here."
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(evil-want-Y-yank-to-eol nil)
-  '(org-capture-templates
-     (quote
-       (("c" "Inbox" entry
-          (file+headline "~/org/TODOs.org" "Inbox")
-          ""))))
-  '(package-selected-packages
-     (quote
-       (plantuml-mode yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rainbow-delimiters pug-mode projectile-rails rake inflections prettier-js popwin phpunit phpcbf php-auto-yasnippets persp-mode pcre2el paradox spinner orgit org-projectile org-present org-pomodoro alert log4e gntp org-journal org-download org-bullets open-junk-file ob-elixir neotree mwim multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd linum-relative link-hint less-css-mode json-snatcher js2-refactor multiple-cursors js-doc info+ indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode gruvbox-theme autothemer google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck-mix flycheck-elm flycheck-credo flycheck flx-ido flx fill-column-indicator feature-mode fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav editorconfig dumb-jump drupal-mode diminish define-word company-web web-completion-data company-tern dash-functional tern column-enforce-mode clean-aindent-mode chruby bundler inf-ruby bind-map bind-key auto-yasnippet auto-highlight-symbol auto-compile packed alchemist elixir-mode pkg-info epl ace-link ace-jump-helm-line helm helm-core ac-ispell auto-complete popup yasnippet undo-tree json-mode js2-mode hydra company-statistics company coffee-mode async aggressive-indent adaptive-wrap ace-window avy php-extras php-mode org-plus-contrib evil-unimpaired)))
-  '(plantuml-jar-path "/Users/pierrebeitz/projects/helpers/plantuml.jar")
-)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
+ '(linum-delay t)
+ '(linum-eager nil)
+ '(org-agenda-files
+   (quote
+    ("/Users/pierrebeitz/org/TODOs.org" "/Users/pierrebeitz/org/private.org")))
+ '(org-capture-templates
+   (quote
+    (("c" "Inbox" entry
+      (file+headline "~/org/TODOs.org" "Inbox")
+      ""))))
+ '(package-selected-packages
+   (quote
+    (edit-indirect org-category-capture json-reformat dash s vue-mode ssass-mode vue-html-mode pony-mode spray rainbow-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic mu4e-maildirs-extension mu4e-alert ht plantuml-mode yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rainbow-delimiters pug-mode projectile-rails rake inflections prettier-js popwin phpunit phpcbf php-auto-yasnippets persp-mode pcre2el paradox spinner orgit org-projectile org-present org-pomodoro alert log4e gntp org-journal org-download org-bullets open-junk-file ob-elixir neotree mwim multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd linum-relative link-hint less-css-mode json-snatcher js2-refactor multiple-cursors js-doc info+ indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode gruvbox-theme autothemer google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck-mix flycheck-elm flycheck-credo flycheck flx-ido flx fill-column-indicator feature-mode fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav editorconfig dumb-jump drupal-mode diminish define-word company-web web-completion-data company-tern dash-functional tern column-enforce-mode clean-aindent-mode chruby bundler inf-ruby bind-map bind-key auto-yasnippet auto-highlight-symbol auto-compile packed alchemist elixir-mode pkg-info epl ace-link ace-jump-helm-line helm helm-core ac-ispell auto-complete popup yasnippet undo-tree json-mode js2-mode hydra company-statistics company coffee-mode async aggressive-indent adaptive-wrap ace-window avy php-extras php-mode org-plus-contrib evil-unimpaired)))
+ '(plantuml-jar-path "/Users/pierrebeitz/projects/helpers/plantuml.jar")
+ '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
