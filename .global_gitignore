@@ -24,6 +24,8 @@ ehthumbs.db
 .mix_tasks
 tags
 
+.ignore
 config/initializers/ecryptfs.rb
 Session.vim
 .byebug_history
+.ctags

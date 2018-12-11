@@ -2,77 +2,39 @@ tap 'caskroom/cask'
 tap 'caskroom/versions'
 tap 'caskroom/fonts'
 tap 'thoughtbot/formulae'
-tap 'neovim/neovim'
-tap 'ethereum/ethereum'
-tap 'homebrew/php'
 
 brew 'rcm'
 brew 'mas'
 
+brew 'coreutils'
+brew 'ctags'
+brew 'diff-so-fancy'
 brew 'elixir'
-brew 'flow'
-brew 'php'
-
+brew 'fzf'
 brew 'git'
 brew 'git-extras'
-brew 'hub'
-brew 'tmux'
-brew 'ctags'
-brew 'graphviz'
-brew 'ripgrep'
-brew 'mosh'
-brew 'asciinema'
-brew 'coreutils'
 brew 'gpg'
-brew 'ethereum'
-brew 'llvm'
-
-brew 'zsh'
-
-brew 'the_silver_searcher'
-brew 'fzf'
-
-brew 'neovim'
-brew 'vim', args: ['override-system-vi', 'with-lua', 'with-perl', 'with-python3', 'with-ruby']
-
+brew 'graphviz'
 brew 'htop'
-brew 'httpie'
 brew 'jq'
-brew 'jid'
-brew 'cheat'
-brew 'sshrc'
-
-brew 'wget'
-
-brew 'postgresql'
-brew 'redis'
-brew 'mysql'
-brew 'sqlite'
-# brew 'mongodb'
-
-# brew 'purescript'
-# brew 'haskell-stack'
-
-# brew 'gcc'
-
+brew 'neovim'
 brew 'npm'
-
-brew 'kubectl'
-brew 'leiningen'
-brew 'nginx'
-
-# brew 'weechat', args: ['with-python', 'with-perl']
+brew 'php'
+brew 'ripgrep'
+brew 'sshrc'
+brew 'the_silver_searcher'
+brew 'tmux'
+brew 'vim', args: ['override-system-vi', 'with-lua', 'with-perl', 'with-python3', 'with-ruby']
+brew 'wget'
+brew 'zsh'
 
 cask 'iterm2'
 
 cask 'docker'
-cask 'kitematic'
 
 cask 'dropbox'
-# cask 'transmission'
 
 cask 'flux'
-cask 'gyazo'
 cask 'dash'
 
 cask 'emacs'
@@ -91,8 +53,6 @@ cask 'keybase'
 cask 'pgadmin3'
 
 cask 'google-chrome'
-
-cask 'helium'
 
 # quick look plugins
 # https://github.com/sindresorhus/quick-look-plugins

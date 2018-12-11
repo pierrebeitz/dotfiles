@@ -1,7 +1,9 @@
 alias dw="docker-compose exec web"
 alias dc="docker-compose"
 alias dce="docker-compose exec"
+alias dokku='bash $HOME/.dokku/contrib/dokku_client.sh'
 alias g="git"
+alias gcaa="git add --all && git commit --amend --no-edit"
 alias gcd="git checkout develop"
 alias gcm="git checkout master"
 alias gdc="git diff --cached"

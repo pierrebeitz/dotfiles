@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
-plugins=(alias-tips cp docker docker-compose fasd git git-extras git-flow mina mix mix-fast pass yarn z)
+plugins=(alias-tips cp django docker docker-compose fasd git git-extras git-flow mina mix mix-fast npm pass yarn z)
 # git-extras
 
 # custom completions
@@ -79,7 +79,7 @@ function dps() {
 }
 
 function drmi() {
-  docker rmi $(docker images | fzf |  c 3)
+  docker image ls | fzf -m | tr -s " " | cut -f 3 -d' ' | xargs -n1 docker image rm -f
 }
 function drm() {
   docker rm $(docker ps -a | fzf | c 1)
@@ -107,3 +107,20 @@ unalias gl
 function gl() {
   glog --all "$@"
 }
+
+export WORK_ON=~/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+PATH="/Users/pierrebeitz/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/pierrebeitz/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/pierrebeitz/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/pierrebeitz/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/pierrebeitz/perl5"; export PERL_MM_OPT;
+export PKG_CONFIG_PATH="/usr/local/opt/imagemagick@6/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
+
+export ERL_AFLAGS="-kernel shell_history enabled"
+
