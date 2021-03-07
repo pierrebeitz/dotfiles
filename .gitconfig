@@ -1,24 +1,25 @@
 [user]
-  name = "Pierre Beitz"
-  email = pierrebeitz@gmail.com
+  name = Pierre Beitz
+	email = pierrebeitz@gmail.com
   signingkey = BF42E941C3D542238A60BD0A74D41F4238D84443
 
 [core]
-  excludesfile = ~/.global_gitignore           # a global gitignore!
+  excludesfile = ~/.global_gitignore # a global gitignore!
   ignorecase = false
 	pager = diff-so-fancy | less --tabs=4 -RFX
   whitespace = trailing-space,space-before-tab # Show whitespace-issues on git diff
+	commentChar = ";"
 
 [github]
   user = pierrebeitz
 
 [alias]
-  a = add -u        # -u: also move removed files to index
+  a = add -u # -u: also move removed files to index
   aa = add --all :/ # add all files project-wide
-  ap = add -u -p    # -p: add hunks interactively one by one
+  ap = add -u -p # -p: add hunks interactively one by one
 
   # branches: delete merged. convenience to clean up local branches
-  bdm = "!git branch --merged | grep -v '*' | xargs -n 1 git branch -d"
+  bdm = !git branch --merged | grep -v '*' | xargs -n 1 git branch -d
 
   # verbose: show a complete diff below the usual commit message buffer
   c = commit -v
@@ -27,15 +28,16 @@
   # show a word-comparing diff
   df = diff --color --color-words --abbrev
 
-  l = "!. ~/.githelpers && pretty_git_log"            # show a pretty log
-  la = !git l --all                                   # ... of all branches
-  lme = !git l --all --author='Pierre' --date-order   # ... of only my commits
-  r = !GIT_NO_PAGER=1 git l -30                       # of recent (30) commits
-  ra = !git r --all                                   # of recent commits on all branches
+  l = !. ~/.githelpers && pretty_git_log # show a pretty log
+  la = !git l --all # ... of all branches
+  lme = !git l --all --author='Pierre' --date-order # ... of only my commits
+  r = !GIT_NO_PAGER=1 git l -30 # of recent (30) commits
+  ra = !git r --all # of recent commits on all branches
 
   # remove specified branch here and on origin
   nuke = !sh -c 'git branch -d $1 && git push origin :$1' -
 
+  po = pull origin
   pu = push -u origin
   # force push if nobody else changed stuff yet
   pf = push --force-with-lease
@@ -43,12 +45,14 @@
   # list authors by # of commits
   rank = shortlog -sn --no-merges
 
+  repull = !git fetch && git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
+  rbm = !git checkout master && git fetch && git pull && git checkout - && git rebase master
 
   assume = update-index --assume-unchanged
   unassume = update-index --no-assume-unchanged
-  assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+  assumed = !git ls-files -v | grep ^h | cut -c 3-
   unassumeall = !git assumed | xargs git update-index --no-assume-unchanged
-  assumeall = "!git st -s | awk {'print $2'} | xargs git assume"
+  assumeall = !git st -s | awk {'print $2'} | xargs git assume
 
 
 [branch]
@@ -104,8 +108,9 @@
   rebase = true
 
 [push]
-  # push the current branch to update a branch with the same name on the receiving end
-  default = current
+  # in centralized workflow, work like upstream with an added safety to refuse to
+  # push if the upstream branch’s name is different from the local one.
+	default = current
 
 [rebase]
   autosquash = true

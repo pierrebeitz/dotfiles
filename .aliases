@@ -21,4 +21,7 @@ alias ta="tig --all"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
-alias fixup="git commit --fixup=\`rev\`"
+alias fixup="git commit -n --fixup=\`rev\`"
+alias clusterurl="~/code/helpers/get-cluster-url.sh"
+alias gogo="g aa && gcan! -n && g pf"
+alias kek="export KUBECONFIG=/Users/pierrebeitz/code/kommander/kubeconfig.yaml"

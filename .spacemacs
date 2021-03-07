@@ -31,52 +31,46 @@ values."
    ;; List of configuration layers to load.
     dotspacemacs-configuration-layers
     '(
-       sql
-       windows-scripts
-       nginx
-       ;; ----------------------------------------------------------------
-       ;; Example of useful layers you may want to use right away.
-       ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-       ;; <M-m f e R> (Emacs style) to install them.
-       ;; ----------------------------------------------------------------
-
-       (auto-completion :variables
-         auto-completion-enable-sort-by-usage t
-         auto-completion-enable-help-tooltip t
-         auto-completion-enable-snippets-in-popup t
-         spacemacs-default-company-backends '(company-dabbrev-code
-                                               company-gtags
-                                               company-etags
-                                               company-keywords
-                                               company-files
-                                               company-dabbrev
-                                               company-elm)
+       ;; ruby
+       (python :variables
+         python-formatter 'black
+         python-format-on-save t
+         ;; python-backend 'lsp
          )
-       better-defaults
-       crystal
-       clojure
-       elixir
-       elm
+       react
+       (auto-completion :variables
+        auto-completion-enable-sort-by-usage t
+        auto-completion-enable-help-tooltip t
+        auto-completion-enable-snippets-in-popup t
+        ;; spacemacs-default-company-backends '(company-files company-capf)
+       )
+       lsp
+       ;; better-defaults
+       ;; elixir
+       ;;elm
        emacs-lisp
-       (git :variables
-         git-magit-status-fullscreen t
-         git-variable-example nil)
+       (git :variables git-variable-example nil)
        helm
        html
-       javascript
-       journal
        markdown
-       (ruby :variables ruby-version-manager 'rvm)
-       ;; ruby-on-rails
-       org
-       php
-       ;; (python :variables python-enable-yapf-format-on-save t)
+       (org :variables
+         org-want-todo-bindings t
+         org-enable-org-journal-support t
+         )
+       osx
        syntax-checking
-       typescript
+       (typescript :variables
+         typescript-fmt-on-save t
+         typescript-fmt-tool 'prettier
+         ;; typescript-backend 'tide
+         typescript-backend 'lsp
+         node-add-modules-path t
+         )
        version-control
        (shell :variables
          shell-default-term-shell "/bin/zsh"
          shell-default-shell 'term)
+       spacemacs-defaults
        yaml
        )
 
@@ -86,24 +80,24 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     ;; apib-mode
-     ;; rainbow-mode
      add-node-modules-path
+     arduino-mode
      editorconfig
+     graphql-mode
      gruvbox-theme
+     format-all
      org-journal
-     ;; plantuml-mode
+     sbt-mode
      prettier-js
      elm-mode
-
-     ;; rufo
-     ;; sr-speedbar
-     vue-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+    dotspacemacs-excluded-packages
+    '(
+       tern
+       )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -233,7 +227,7 @@ values."
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
-   dotspacemacs-auto-save-file-location 'cache
+   dotspacemacs-auto-save-file-location 'original
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
@@ -259,7 +253,13 @@ values."
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
    ;; (default 'bottom)
+
    dotspacemacs-which-key-position 'bottom
+
+
+
+   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
@@ -322,7 +322,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server 'nil
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -357,8 +357,8 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (load-theme 'gruvbox-dark-soft t)
 
-  ;; (require 'helm-bookmark)
-
+  (with-eval-after-load 'evil-iedit-state
+    (fset 'iedit-cleanup 'iedit-lib-cleanup))
 
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-i") 'evil-jump-forward)
@@ -368,132 +368,128 @@ you should place your code here."
   (global-set-key (kbd "M-j") 'evil-window-down)
   (global-set-key (kbd "M-k") 'evil-window-up)
 
-  ;; (global-set-key (kbd "<C-S-up>") 'shrink-window)
-  ;; (global-set-key (kbd "<C-S-down>") 'enlarge-window)
-  ;; (global-set-key (kbd "<C-S-h>") 'shrink-window-horizontally)
-  ;; (global-set-key (kbd "<C-S-l>") 'enlarge-window-horizontally)
+  ;; override keybindings of org-mode
+  (evil-define-key 'normal evil-org-mode-map
+    "\M-h" 'evil-window-left
+    "\M-l" 'evil-window-right
+    "\M-j" 'evil-window-down
+    "\M-k" 'evil-window-up
+    )
 
-  ;; (load-file "~/.rvm/gems/ruby-2.3.3/gems/rcodetools-0.8.5.0/rcodetools.el")
-
-  ;; (define-key evil-motion-state-map (kbd "C-h") #'evil-window-left)
-  ;; (define-key evil-motion-state-map (kbd "C-j") #'evil-window-down)
-  ;; (define-key evil-motion-state-map (kbd "C-k") #'evil-window-up)
-  ;; (define-key evil-motion-state-map (kbd "C-l") #'evil-window-right)
-
-  ;; (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-  ;; (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-  ;; (define-key evil-normal-state-map "j" 'evil-next-visual-line)
-  ;; (define-key evil-normal-state-map "k" 'evil-previous-visual-line)
-  ;; (define-key evil-normal-state-map "ZZ" 'evil-write)
-  ;; (define-key evil-normal-state-map (kbd "C->") 'evil-window-increase-width)
-  ;; (define-key evil-normal-state-map (kbd "C-<") 'evil-window-decrease-width)
-
-  ;; (define-key evil-normal-state-map "\M-p" 'evil-paste-pop)
-  ;; (define-key evil-normal-state-map "\C-p" 'helm-projectile-find-file)
-  (define-key key-translation-map [f5] (kbd "C-c C-c"))
+  ;; (add-to-list 'company-backends 'company-elm)
+  ;; (define-key key-translation-map [f5] (kbd "C-c C-c"))
   (global-set-key [f9] 'sort-lines)
 
   (setq js2-include-node-externs t)
 
-  (add-hook 'elixir-mode-hook
-    (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+  ;; (setq magit-refresh-status-buffer nil)
+  (setq lsp-enable-file-watchers nil)
 
-  (add-hook 'elixir-format-hook (lambda ()
-                                  (if (projectile-project-p)
-                                    (setq elixir-format-arguments
-                                      (list "--dot-formatter"
-                                        (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
-                                    (setq elixir-format-arguments nil))))
+  ;; don't create .#filename-files
+  (setq create-lockfiles nil)
+  (add-hook 'server-switch-hook #'raise-frame)
 
 
-  ;; (when (eq dotspacemacs-editing-style 'vim)
-  ;;   (evil-define-key 'insert term-raw-map
-  ;;     (kbd "C-k") 'evil-window-up
-  ;;     (kbd "C-j") 'evil-window-down))
-  ;; (evil-define-key 'normal term-raw-map
-  ;;   (kbd "C-k") 'evil-window-up
-  ;;   (kbd "C-j") 'evil-window-down)
+  ;; (add-hook 'elixir-mode-hook
+  ;;   (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+
+  ;; (add-hook 'elixir-format-hook (lambda ()
+  ;;                                 (if (projectile-project-p)
+  ;;                                   (setq elixir-format-arguments
+  ;;                                     (list "--dot-formatter"
+  ;;                                       (concat (locate-dominating-file buffer-file-name ".formatter.exs") ".formatter.exs")))
+  ;;                                   (setq elixir-format-arguments nil))))
+
+
+  ;; (evil-set-undo-system 'undo-tree)	  (when (fboundp 'evil-set-undo-system)
+  ;;                                       (evil-set-undo-system 'undo-tree))
 
   ;; Keeping files in sync
   (global-auto-revert-mode 1)
+
+  (add-to-list 'exec-path "~/.asdf/installs/python/3.7.7/bin")
+
   (setq global-auto-revert-non-file-buffers t)
   (setq auto-revert-verbose nil)
   (setq revert-without-query '(".*")) ;; disable revert query
-
-  ;; fix annoying neotree bug
-  (setq helm-split-window-inside-p t)
-
-  ;; projectile-switch-project-action 'neotree-projectile-action
+  (setq rust-format-on-save t)
   (setq
-   ;; browse-url-browser-function 'browse-url-generic
-   ;; browse-url-generic-program "google-chrome"
-   create-lockfiles nil ;; Don't create lockfiles
-   elm-format-on-save t
-   ;; engine/browser-function 'browse-url-generic
-   ;; magit-repository-directories '("~/code/")
-   org-agenda-files '("~/org")
-   org-agenda-ndays 7
-                                        ; org-agenda-skip-deadline-if-done t
-                                        ; org-agenda-skip-scheduled-if-done t
-   org-agenda-tags-todo-honor-ignore-options t
-   org-agenda-todo-ignore-deadlines t
-   org-agenda-todo-ignore-scheduled t
-   org-agenda-custom-commands '(("cx" "TODOs sorted by state, priority, effort" todo "*"
-                                 ((org-agenda-overriding-header "\nTODOs sorted by state, priority, effort")
-                                  (org-agenda-sorting-strategy '(todo-state-down priority-down effort-up)))))
-   org-confirm-babel-evaluate nil
-   org-clock-mode-line-total 'current
+    create-lockfiles nil ;; Don't create lockfiles
+    elm-format-on-save t
+    org-agenda-files '("~/org")
+    org-agenda-ndays 7
+    org-agenda-tags-todo-honor-ignore-options t
+    org-agenda-todo-ignore-deadlines t
+    org-agenda-todo-ignore-scheduled t
+    org-agenda-custom-commands '(("cx" "TODOs sorted by state, priority, effort" todo "*"
+                                   (
+                                     (org-agenda-overriding-header "\nTODOs sorted by state, priority, effort")
+                                     (org-agenda-sorting-strategy '(todo-state-down priority-down effort-up))
+                                     )
+                                   ))
+    org-clock-mode-line-total 'current
+    org-confirm-babel-evaluate nil
 
-   spaceline-org-clock-p t
+    org-journal-file-type 'daily
+    org-journal-dir "~/org/journal"
+    org-journal-date-format "%Y-%m-%d"
 
-   ;; org-default-notes-file (concat org-directory "/notes.org")
-   org-timer-default-timer 25
+    org-timer-default-timer 25
+    spaceline-org-clock-p t
+    ;; make cursor the width of the character it is under i.e. full width of a TAB
+    x-stretch-cursor t
 
-   ;; neo-hidden-regexp-list '("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "^__pycache__" "^node_modules" "^elm_stuff")
-   ;; (add-to-list 'auto-mode-alist '("\\.blade\\.php" . web-mode))
-
-    ruby-deep-indent-paren nil
-    ruby-use-smie nil
-    enh-ruby-deep-indent-paren nil
-    ruby-deep-indent-paren-style nil
-   )
+    )
 
   (display-time)
   (editorconfig-mode 1)
-
-  (add-hook 'js-mode-hook  'prettier-js-mode)
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'add-node-modules-path)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-
-  (defun enable-minor-mode (my-pair)
-    "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
-    (if (buffer-file-name)
-        (if (string-match (car my-pair) buffer-file-name)
-            (funcall (cdr my-pair)))))
-  (add-hook 'web-mode-hook #'(lambda () (enable-minor-mode '("\\.jsx?\\'" . prettier-js-mode))))
 
   (defun me/org-todo () (interactive)(find-file "~/org/TODOs.org"))
   ;; (evil-leader/set-key "o t" 'me/org-todo)
   (spacemacs/set-leader-keys "ot" #'me/org-todo)
 
-  (setq-default
-    flycheck-phpcs-standard "PSR2"
-    flycheck-disabled-checkers '(javascript-jscs)
-    js-indent-level 2
-    js2-basic-offset 2
-  )
 
-  ;; (setq-default git-magit-status-fullscreen t)
+  ;; (setq-default
+  ;;   flycheck-disabled-checkers '(javascript-jscs)
+  ;;   js-indent-level 2
+  ;;   js2-basic-offset 2
+  ;; )
 
-  ;; (bind-key "<f6>" 'org-todo-list)
 
-  ;; active Org-babel languages
-  (setq org-plantuml-jar-path (expand-file-name "~/projects/helpers/plantuml.jar"))
+  (defun notify-osx (title message)
+    (call-process "terminal-notifier"
+      nil 0 nil
+      "-group" "Emacs"
+      "-title" title
+      "-sender" "org.gnu.Emacs"
+      "-message" message))
 
-  ;; error prone?
-  (add-to-list 'org-babel-load-languages '(plantuml . t))
-  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t) (ruby . t)))
+
+  ;; Pomodoro-notifications
+  (add-hook 'org-pomodoro-finished-hook
+    (lambda ()
+      (notify-osx "Pomodoro completed!" "Time for a break.")))
+  (add-hook 'org-pomodoro-break-finished-hook
+    (lambda ()
+      (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
+  (add-hook 'org-pomodoro-long-break-finished-hook
+    (lambda ()
+      (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
+  (add-hook 'org-pomodoro-killed-hook
+    (lambda ()
+      (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
+
+  (defun enable-minor-mode (my-pair)
+    "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+    (if (buffer-file-name)
+        (if (string-match (car my-pair) buffer-file-name)
+
+            (funcall (cdr my-pair)))))
+
+  ;; (add-hook 'typescript-mode-hook #'prettier-js-mode)
+  ;; (add-hook 'typescript-tsx-mode-hook #'prettier-js-mode)
+  (add-hook 'web-mode-hook #'prettier-js-mode)
+  (add-hook 'js2-mode-hook #'prettier-js-mode)
 
   )
 
@@ -504,30 +500,30 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+  '(ansi-color-names-vector
+     ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(evil-want-Y-yank-to-eol nil)
  '(js2-strict-missing-semi-warning nil)
  '(js2-strict-trailing-comma-warning nil)
  '(linum-delay t)
  '(linum-eager nil)
- '(magit-diff-arguments
-   (quote
-    ("--ignore-all-space" "--no-ext-diff" "--stat" "-M")))
- '(org-agenda-files
-   (quote
-    ("/Users/pierrebeitz/org/TODOs.org" "/Users/pierrebeitz/org/private.org")))
- '(org-capture-templates
-   (quote
-    (("c" "Inbox" entry
-      (file+headline "~/org/TODOs.org" "Inbox")
-      ""))))
- '(package-selected-packages
-   (quote
-    (treepy graphql sesman inf-crystal play-crystal ob-crystal flycheck-crystal crystal-mode ameba powershell nginx-mode gitlab sql-indent git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl flycheck-flow org-mime wgrep smex ivy-hydra counsel-projectile counsel swiper gruvbox-dark-soft-theme add-node-modules-path clojure-snippets clj-refactor edn paredit peg cider-eval-sexp-fu cider seq queue clojure-mode helm-gtags ggtags sr-speedbar company-quickhelp company-tern tern ivy rufo ghub let-alist intero hlint-refactor hindent helm-hoogle haskell-snippets company-ghci company-ghc ghc haskell-mode cmm-mode ibuffer-projectile writegood-mode dictcc f csv-mode edit-indirect org-category-capture json-reformat dash s vue-mode ssass-mode vue-html-mode pony-mode spray rainbow-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic mu4e-maildirs-extension mu4e-alert ht plantuml-mode yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rainbow-delimiters pug-mode projectile-rails rake inflections prettier-js popwin phpunit phpcbf php-auto-yasnippets persp-mode pcre2el paradox spinner orgit org-projectile org-present org-pomodoro alert log4e gntp org-journal org-download org-bullets open-junk-file ob-elixir neotree mwim multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd linum-relative link-hint less-css-mode json-snatcher js2-refactor multiple-cursors js-doc info+ indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode gruvbox-theme autothemer google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck-mix flycheck-elm flycheck-credo flycheck flx-ido flx fill-column-indicator feature-mode fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav editorconfig dumb-jump drupal-mode diminish define-word company-web web-completion-data dash-functional column-enforce-mode clean-aindent-mode chruby bundler inf-ruby bind-map bind-key auto-yasnippet auto-highlight-symbol auto-compile packed alchemist elixir-mode pkg-info epl ace-link ace-jump-helm-line helm helm-core ac-ispell auto-complete popup yasnippet undo-tree json-mode js2-mode hydra company-statistics company coffee-mode async aggressive-indent adaptive-wrap ace-window avy php-extras php-mode org-plus-contrib evil-unimpaired)))
- '(paradox-github-token t)
- '(phpcbf-standard "PSR2")
- '(plantuml-jar-path "/Users/pierrebeitz/projects/helpers/plantuml.jar")
+  ;; '(magit-diff-arguments
+  ;;    (quote
+  ;;      ("--ignore-all-space" "--no-ext-diff" "--stat" "-M")))
+  ;; '(magit-git-global-arguments
+  ;;    (quote
+  ;;      ("--no-pager" "-c" "core.preloadindex=true" "-c" "log.showSignature=false")))
+  '(org-agenda-files
+     (quote
+       ("/Users/pierrebeitz/org/TODOs.org" "/Users/pierrebeitz/org/private.org")))
+  '(org-capture-templates
+     (quote
+       (("c" "Inbox" entry
+          (file+headline "~/org/TODOs.org" "Inbox")
+          ""))))
+  '(package-selected-packages
+     (quote
+       (reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl reformatter treepy graphql sesman inf-crystal play-crystal ob-crystal flycheck-crystal crystal-mode ameba powershell nginx-mode gitlab sql-indent git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl flycheck-flow org-mime wgrep smex ivy-hydra counsel-projectile counsel swiper gruvbox-dark-soft-theme add-node-modules-path clojure-snippets clj-refactor edn paredit peg cider-eval-sexp-fu cider seq queue clojure-mode helm-gtags ggtags sr-speedbar company-quickhelp company-tern tern ivy rufo ghub let-alist intero hlint-refactor hindent helm-hoogle haskell-snippets company-ghci company-ghc ghc haskell-mode cmm-mode ibuffer-projectile writegood-mode dictcc f csv-mode edit-indirect org-category-capture json-reformat dash s vue-mode ssass-mode vue-html-mode pony-mode spray rainbow-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic mu4e-maildirs-extension mu4e-alert ht plantuml-mode yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rainbow-delimiters pug-mode projectile-rails rake inflections prettier-js popwin phpunit phpcbf php-auto-yasnippets persp-mode pcre2el paradox spinner orgit org-projectile org-present org-pomodoro alert log4e gntp org-journal org-download org-bullets open-junk-file ob-elixir neotree mwim multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd linum-relative link-hint less-css-mode json-snatcher js2-refactor multiple-cursors js-doc info+ indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode gruvbox-theme autothemer google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck-mix flycheck-elm flycheck-credo flycheck flx-ido flx fill-column-indicator feature-mode fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav editorconfig dumb-jump drupal-mode diminish define-word company-web web-completion-data dash-functional column-enforce-mode clean-aindent-mode chruby bundler inf-ruby bind-map bind-key auto-yasnippet auto-highlight-symbol auto-compile packed alchemist elixir-mode pkg-info epl ace-link ace-jump-helm-line helm helm-core ac-ispell auto-complete popup yasnippet undo-tree json-mode js2-mode hydra company-statistics company coffee-mode async aggressive-indent adaptive-wrap ace-window avy php-extras php-mode org-plus-contrib evil-unimpaired)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -535,3 +531,59 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(evil-want-Y-yank-to-eol nil)
+ '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case --follow ")
+ '(helm-completion-style 'emacs)
+ '(hl-todo-keyword-faces
+   '(("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX" . "#dc752f")
+     ("XXXX" . "#dc752f")))
+ '(js2-strict-missing-semi-warning nil)
+ '(js2-strict-trailing-comma-warning nil)
+ '(linum-delay t)
+ '(linum-eager nil)
+ '(org-agenda-files
+   '("/Users/pierrebeitz/org/TODOs.org" "/Users/pierrebeitz/org/private.org"))
+ '(org-capture-templates
+   '(("c" "Inbox" entry
+      (file+headline "~/org/TODOs.org" "Inbox")
+      "")))
+ '(package-selected-packages
+   '(docker soundcloud groovy-mode bazel-mode reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl reformatter treepy graphql sesman inf-crystal play-crystal ob-crystal flycheck-crystal crystal-mode ameba powershell nginx-mode gitlab sql-indent git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl flycheck-flow org-mime wgrep smex ivy-hydra counsel-projectile counsel swiper gruvbox-dark-soft-theme add-node-modules-path clojure-snippets clj-refactor edn paredit peg cider-eval-sexp-fu cider seq queue clojure-mode helm-gtags ggtags sr-speedbar company-quickhelp company-tern tern ivy rufo ghub let-alist intero hlint-refactor hindent helm-hoogle haskell-snippets company-ghci company-ghc ghc haskell-mode cmm-mode ibuffer-projectile writegood-mode dictcc f csv-mode edit-indirect org-category-capture json-reformat dash s vue-mode ssass-mode vue-html-mode pony-mode spray rainbow-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic mu4e-maildirs-extension mu4e-alert ht plantuml-mode yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rainbow-delimiters pug-mode projectile-rails rake inflections prettier-js popwin phpunit phpcbf php-auto-yasnippets persp-mode pcre2el paradox spinner orgit org-projectile org-present org-pomodoro alert log4e gntp org-journal org-download org-bullets open-junk-file ob-elixir neotree mwim multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd linum-relative link-hint less-css-mode json-snatcher js2-refactor multiple-cursors js-doc info+ indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode gruvbox-theme autothemer google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-pos-tip pos-tip flycheck-mix flycheck-elm flycheck-credo flycheck flx-ido flx fill-column-indicator feature-mode fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav editorconfig dumb-jump drupal-mode diminish define-word company-web web-completion-data dash-functional column-enforce-mode clean-aindent-mode chruby bundler inf-ruby bind-map bind-key auto-yasnippet auto-highlight-symbol auto-compile packed alchemist elixir-mode pkg-info epl ace-link ace-jump-helm-line helm helm-core ac-ispell auto-complete popup yasnippet undo-tree json-mode js2-mode hydra company-statistics company coffee-mode async aggressive-indent adaptive-wrap ace-window avy php-extras php-mode org-plus-contrib evil-unimpaired))
+ '(paradox-github-token t)
+ '(phpcbf-standard "PSR2")
+ '(plantuml-jar-path "/Users/pierrebeitz/projects/helpers/plantuml.jar")
+ '(projectile-generic-command "find -L . -type f -print0")
+ '(projectile-git-command "rg . -L --files --sort-files -0 --hidden -g\"!.git/\"")
+ '(send-mail-function 'mailclient-send-it))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
