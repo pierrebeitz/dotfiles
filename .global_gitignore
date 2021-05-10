@@ -30,4 +30,3 @@ Session.vim
 .byebug_history
 .ctags
 *flycheck_*
-/dcos-ui-plugins-private

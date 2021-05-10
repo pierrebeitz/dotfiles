@@ -32,11 +32,11 @@ values."
     dotspacemacs-configuration-layers
     '(
        ;; ruby
-       (python :variables
-         python-formatter 'black
-         python-format-on-save t
-         ;; python-backend 'lsp
-         )
+       ;; (python :variables
+       ;;   python-formatter 'black
+       ;;   python-format-on-save t
+       ;;   ;; python-backend 'lsp
+       ;;   )
        react
        (auto-completion :variables
         auto-completion-enable-sort-by-usage t
@@ -63,6 +63,7 @@ values."
          typescript-fmt-on-save t
          typescript-fmt-tool 'prettier
          ;; typescript-backend 'tide
+         typescript-linter 'tslint
          typescript-backend 'lsp
          node-add-modules-path t
          )
@@ -81,13 +82,13 @@ values."
    dotspacemacs-additional-packages
    '(
      add-node-modules-path
-     arduino-mode
+     ;; arduino-mode
      editorconfig
      graphql-mode
      gruvbox-theme
      format-all
      org-journal
-     sbt-mode
+     ;; sbt-mode
      prettier-js
      elm-mode
      )
