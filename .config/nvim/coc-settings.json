@@ -1,0 +1,22 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "diagnostic.autoRefresh": true,
+  "signature.enable": true,
+  "signature.target": "echo",
+  "languageserver": {
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
+      "trace.server": "verbose",
+      "initializationOptions": {
+        "elmPath": "elm",
+        "elmFormatPath": "elm-format",
+        "elmTestPath": "elm-test",
+        "disableElmLSDiagnostics": false,
+        "skipInstallPackageConfirmation": false
+      }
+    }
+  },
+  "snippets.ultisnips.pythonPrompt": false
+}

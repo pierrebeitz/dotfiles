@@ -30,3 +30,4 @@ Session.vim
 .byebug_history
 .ctags
 *flycheck_*
+.tool-versions

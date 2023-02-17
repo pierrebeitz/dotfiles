@@ -3,7 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
-plugins=(alias-tips cp django docker docker-compose fasd git git-extras git-flow mina mix mix-fast npm pass yarn z)
+plugins=(cp docker docker-compose fasd git git-extras git-auto-fetch npm yarn z zsh-autosuggestions zsh-syntax-highlighting)
 # git-extras
 
 # custom completions
@@ -16,7 +16,7 @@ source $ZSH/oh-my-zsh.sh
 export WORDCHARS='*?[]~&;!$%^<>'
 
 source ~/.aliases
-source ~/.secret_stuff
+# source ~/.secret_stuff
 function f() {
   find . -name "$1"
 }
@@ -28,7 +28,7 @@ bindkey '^[[1;9D' backward-word
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
-export VISUAL=vim
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
@@ -108,19 +108,98 @@ function gl() {
   glog --all "$@"
 }
 
-export WORK_ON=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+# GIT heart FZF
+# -------------
 
-PATH="/Users/pierrebeitz/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/pierrebeitz/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/pierrebeitz/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/pierrebeitz/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/pierrebeitz/perl5"; export PERL_MM_OPT;
-export PKG_CONFIG_PATH="/usr/local/opt/imagemagick@6/lib/pkgconfig:$PKG_CONFIG_PATH"
+is_in_git_repo() {
+  git rev-parse HEAD > /dev/null 2>&1 || echo "This_is_not_a_git_repository"
+}
+
+fzf-down() {
+  fzf --height 50% "$@" --border
+}
+
+FZF_PREFIX="fzf-git"
+
+function "${FZF_PREFIX}gf" () {
+  is_in_git_repo || return
+  git -c color.status=always status --short |
+  fzf-down -m --ansi --nth 2..,.. \
+    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+  cut -c4- | sed 's/.* -> //'
+}
+
+function "${FZF_PREFIX}gb" () {
+  is_in_git_repo || return
+  git branch -a --color=always | grep -v '/HEAD\s' | sort |
+  fzf-down --ansi --multi --tac --preview-window right:70% \
+    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) -- | head -'$LINES |
+  sed 's/^..//' | cut -d' ' -f1 |
+  sed 's#^remotes/##'
+}
+
+# git tag
+function "${FZF_PREFIX}gt" () {
+  is_in_git_repo || return
+  git tag --sort -version:refname |
+  fzf-down --multi --preview-window right:70% \
+    --preview 'git show --color=always {} | head -'$LINES
+}
+
+function "${FZF_PREFIX}gh" () {
+  is_in_git_repo || return
+  git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
+  fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
+    --header 'Press CTRL-S to toggle sort' \
+    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | head -1 | xargs git show --color=always | head -' |
+  grep -o "[a-f0-9]\{7,\}" | head -1
+}
+
+function "${FZF_PREFIX}gr" () {
+  is_in_git_repo || return
+  git remote -v | awk '{print $1 "\t" $2}' | uniq |
+  fzf-down --tac \
+    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" --remotes={1} | head -200' |
+  cut -d$'\t' -f1
+}
+
+
+join-lines() {
+  local item
+  while read item; do
+    echo -n "${(q)item} "
+  done
+}
+
+bind-git-helper() {
+  local char
+  for c in $@; do
+    eval "fzf-g$c-widget() { local result=\$(${FZF_PREFIX}g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
+    eval "zle -N fzf-g$c-widget"
+    eval "bindkey '^g^$c' fzf-g$c-widget"
+  done
+}
+bind-git-helper f b t r h
+
 
 . $HOME/.asdf/asdf.sh
 
 . $HOME/.asdf/completions/asdf.bash
 
-export ERL_AFLAGS="-kernel shell_history enabled"
+export HUSKY_SKIP_HOOKS=1
 
+export PATH="$PATH:$HOME/.cargo/bin:$HOME/.platformio/penv/bin"
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+function b() {
+  git checkout `git branch | fzf -f $1 | head -n1`
+}
+# export MV3=1
+
+# bun completions
+[ -s "/Users/pierre/.bun/_bun" ] && source "/Users/pierre/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+alias gcm='[[ $(git branch | grep main) ]] && git checkout main || git checkout master'

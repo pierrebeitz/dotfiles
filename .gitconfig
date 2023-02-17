@@ -22,7 +22,7 @@
   bdm = !git branch --merged | grep -v '*' | xargs -n 1 git branch -d
 
   # verbose: show a complete diff below the usual commit message buffer
-  c = commit -v
+  c = commit
   cf = commit --fixup
 
   # show a word-comparing diff
@@ -37,16 +37,29 @@
   # remove specified branch here and on origin
   nuke = !sh -c 'git branch -d $1 && git push origin :$1' -
 
+  search = log -G
+  dsearch = log -p -G
+
+
   po = pull origin
   pu = push -u origin
   # force push if nobody else changed stuff yet
   pf = push --force-with-lease
 
+  dmerged = !git checkout master && git branch --merged | grep -v master | xargs -n1 git branch -d
+
   # list authors by # of commits
   rank = shortlog -sn --no-merges
 
+  delete-branches = "!r() { refbranch=$1 count=$2; git for-each-ref --sort=-committerdate refs/heads --format='%(refname:short)|%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always --count=${count:-20} | while read line; do branch=$(echo \"$line\" | awk 'BEGIN { FS = \"|\" }; { print $1 }' | tr -d '*'); colorline=$(echo \"$line\" | sed 's/^[^|]*|//'); echo \"$colorline\" | awk -F'|' -vOFS='|' '{$5=substr($5,1,70)}1' ; done | column -ts'|' | fzf --ansi -m | tr -s ' ' | cut -d' ' -f2 | xargs -n1 git branch -D; }; r"
+
+  rebaseAll = !~/.rebase_all.sh
+
+  # recently changed branches
+  recent = "!r() { refbranch=$1 count=$2; git for-each-ref --sort=-committerdate refs/heads --format='%(refname:short)|%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always --count=${count:-20} | while read line; do branch=$(echo \"$line\" | awk 'BEGIN { FS = \"|\" }; { print $1 }' | tr -d '*'); colorline=$(echo \"$line\" | sed 's/^[^|]*|//'); echo \"$colorline\" | awk -F'|' -vOFS='|' '{$5=substr($5,1,70)}1' ; done | column -ts'|' | fzf --ansi | tr -s ' ' | cut -d' ' -f2 | xargs -n1 git checkout; }; r"
+
   repull = !git fetch && git reset --hard origin/`git rev-parse --abbrev-ref HEAD`
-  rbm = !git checkout master && git fetch && git pull && git checkout - && git rebase master
+  rbm = !git fetch && git rebase -i origin/master
 
   assume = update-index --assume-unchanged
   unassume = update-index --no-assume-unchanged
@@ -118,3 +131,5 @@
 
 [rerere]
   enabled = true
+[init]
+	defaultBranch = main

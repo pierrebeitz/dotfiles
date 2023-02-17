@@ -8,19 +8,18 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'airblade/vim-gitgutter'
-Plugin 'chriskempson/base16-vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'godlygeek/tabular'
-Plugin 'honza/vim-snippets'
+" Plugin 'honza/vim-snippets'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'morhetz/gruvbox'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'sheerun/vim-polyglot'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fugitive'
@@ -31,23 +30,25 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plugin 'leafgarland/typescript-vim'
+" Plugin 'neoclide/coc.nvim'
+" Plugin 'vim-airline/vim-airline'
+" Plugin 'vim-airline/vim-airline-themes'
 
 " Experimental
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'ervandew/supertab'
-Plugin 'joonty/vdebug'
-Plugin 'justinmk/vim-sneak'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'raimondi/delimitMate'
-Plugin 'sirver/ultisnips'
-Plugin 'sjl/gundo.vim'
-Plugin 'elmcast/elm-vim'
+" Plugin 'dyng/ctrlsf.vim'
+" Plugin 'ervandew/supertab'
+" Plugin 'joonty/vdebug'
+" Plugin 'justinmk/vim-sneak'
+" Plugin 'plasticboy/vim-markdown'
+" Plugin 'raimondi/delimitMate'
+" Plugin 'sirver/ultisnips'
+" Plugin 'sjl/gundo.vim'
+" Plugin 'elmcast/elm-vim'
 " Plugin 'Shougo/deoplete.nvim'
-Plugin 'majutsushi/tagbar'
-Plugin 'bitterjug/vim-tagbar-ctags-elm'
-Plugin 'dhruvasagar/vim-table-mode'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'bitterjug/vim-tagbar-ctags-elm'
+" Plugin 'dhruvasagar/vim-table-mode'
 call vundle#end()
 
 
@@ -120,7 +121,7 @@ let g:markdown_fenced_languages = ['html', 'json', 'css', 'javascript', 'elm', '
 let g:polyglot_disabled = ['elm']
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
