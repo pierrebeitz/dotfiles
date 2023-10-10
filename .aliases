@@ -7,7 +7,8 @@ alias t="tmux -u -2"
 alias e="emacsclient"
 alias ta="tig --all"
 alias gc="git commit"
-alias sb="cd /Users/pierre/code/bardeen/bardeen-client/packages/bardeen-design && yarn storybook"
+alias sb="cd /Users/pierre/code/bardeen/bardeen-client && yarn storybook"
+alias dev="cd /Users/pierre/code/bardeen/bardeen-client/packages/bardeen-browser-extension && WATCH=1 bun run build"
 alias vim="nvim"
 
 # Intuitive map function

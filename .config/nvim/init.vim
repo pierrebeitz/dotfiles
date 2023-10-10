@@ -2,32 +2,43 @@
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 " Declare the list of plugins.
+"
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'ryanoasis/vim-devicons'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-neo-tree/neo-tree.nvim' " <---
+
 Plug 'airblade/vim-rooter'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'editorconfig/editorconfig-vim'
+" Plug 'git@github.com:github/copilot.vim.git'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/seoul256.vim'
 Plug 'leafgarland/typescript-vim'
-Plug 'mhartington/oceanic-next'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdtree'
+Plug 'nvim-orgmode/orgmode'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'peitalin/vim-jsx-typescript'
+" Plug 'scrooloose/nerdtree'
+Plug 'stefandtw/quickfix-reflector.vim'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-orgmode/orgmode'
-Plug 'stefandtw/quickfix-reflector.vim'
-Plug 'git@github.com:github/copilot.vim.git'
+Plug 'tpope/vim-unimpaired'
 
-Plug 'morhetz/gruvbox'
-
-Plug 'peitalin/vim-jsx-typescript'
+Plug 'metakirby5/codi.vim'
+Plug 'ggandor/leap.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
-Plug 'fannheyward/telescope-coc.nvim'
+Plug 'fannheyward/telescope-coc.nvim'  " <---
+
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
@@ -38,7 +49,6 @@ map <Space> <Leader>
 let mapleader=" "
 
 let g:python3_host_prog = '/usr/local/opt/python@3/bin/python3'
-
 
 " remember last opened buffers
 " set viminfo^=%
@@ -51,7 +61,7 @@ map <C-s> :w<CR>
 
 set clipboard+=unnamedplus
 set encoding=UTF-8
-set foldmethod=syntax
+set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
@@ -66,7 +76,7 @@ set ts=2 sw=2
 let g:rooter_patterns = ['.git']
 
 
-autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif 
+autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 nnoremap <silent> <space><space> :Commands<CR>
 nnoremap <silent> <space>fed :e $MYVIMRC<CR>
@@ -86,7 +96,8 @@ nnoremap <silent> <space>w/ :vsplit<CR>
 nnoremap <silent> <space>gb :Git blame<CR>
 " nnoremap <space>se :%s/<c-r><c-w>/<c-r><c-w>/g<Left><Left>
 " vnoremap <space>se y<Esc>:%s/<c-r>"/<c-r>"/g<Left><Left>
-nnoremap <space>se :CocCommand document.renameCurrentWord
+nnoremap <silent> <space>se :CocCommand document.renameCurrentWord<CR>
+vnoremap <silent> <space>se :CocCommand document.renameCurrentWord<CR>
 
 " Mappings for CoCList
 nnoremap <silent> <space>ca  :<C-u>CocDiagnostics<cr>
@@ -94,7 +105,8 @@ nnoremap <silent> <space>el  :<C-u>CocDiagnostics<cr>
 "nnoremap <silent> <space><space>  :<C-u>CocList<cr>
 nnoremap <silent> <space>ce  :<C-u>CocList extensions<cr>
 nnoremap <silent> <space>cc  :<C-u>CocList commands<cr>
-nnoremap <silent> <space>oo  :<C-u>CocList outline<cr>
+nnoremap <silent> <space>os  :<C-u>CocList outline<cr>
+nnoremap <silent> <space>oo  :CocOutline<cr>
 nnoremap <silent> <space>cs  :<C-u>CocList -I symbols<cr>
 nnoremap <silent> <space>cj  :<C-u>CocNext<CR>
 nnoremap <silent> <space>ck  :<C-u>CocPrev<CR>
@@ -108,7 +120,8 @@ nnoremap <silent> <space>sc :noh<CR>
 
 nnoremap <silent> <space>pf <cmd>Telescope find_files<cr>
 nnoremap <silent> <space>/  <cmd>Telescope live_grep<cr>
-  
+nnoremap <silent> <space>gt :Git t %<CR>
+
 nnoremap <silent> <space>fb <cmd>Telescope buffers<cr>
 nnoremap <silent> <space>fh <cmd>Telescope help_tags<cr>
 nnoremap <silent> <space>*  <cmd>Telescope grep_string<cr>
@@ -119,9 +132,30 @@ nnoremap <silent> <space>gs :Git<cr>
 " nnoremap <silent> <space>p <cmd>Telescope registers<cr>
 nnoremap <silent> <C-p>  :<C-u>CocList -A --normal yank<cr>
 
-nnoremap <silent> <space>pt :NERDTreeToggle<cr>
-nnoremap <silent> <space>pp :NERDTreeFind<cr>
+nnoremap <silent> <space>pt :Neotree<cr>
+nnoremap <silent> <space>pp :Neotree filesystem reveal<cr>
 nnoremap <silent> <space>gb :Git blame<cr>
+
+function! GitFileAtRef(selected)
+  let ref = split(a:selected)[0]
+  let file = expand('%')
+  let cmd = 'git --no-pager show ' . ref . ':' . file " . ' | vim -'
+  execute 'silent !' . cmd
+endfunction
+
+" Add a function to search for a file in all git revisions
+function! GitRevisions()
+  let l:file = fzf#run({
+        \ 'source': 'git --no-pager log --pretty=format:"%h %ad %s" --date=short ' .expand('%'),
+        \ 'sink': function('GitFileAtRef'),
+        \ 'options': '--preview "git show {1}:./'.expand('%').'"'})
+  if !empty(l:file)
+    execute 'edit '.fnameescape(l:file)
+  endif
+endfunction
+
+" Map the function to a key combination
+nnoremap <Leader>gt :call GitRevisions()<CR>
 
 
 "" ORG MODE
@@ -148,7 +182,7 @@ require('orgmode').setup({
 
 require("telescope").setup({
 	defaults = {
-		path_display = { 'smart' }
+		path_display = { 'truncate' }
 	},
   extensions = {
 		-- always use Telescope locations to preview definitions/declarations/implementations etc
@@ -160,7 +194,7 @@ require('telescope').load_extension('coc')
 EOF
 
 
-"" COC 
+"" COC
 
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
 " unicode characters in the file autoload/float.vim
@@ -224,6 +258,10 @@ inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [p <Plug>(coc-diagnostic-prev)
+nmap <silent> ]p <Plug>(coc-diagnostic-next)
+nmap <silent> ]c <Plug>(coc-cursors-word)
+nmap <silent> [c <Plug>(coc-cursors-operator)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -269,6 +307,7 @@ augroup end
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>ac  <Plug>(coc-codeaction-cursor)
 
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>qq  <Plug>(coc-codeaction)
@@ -314,19 +353,6 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-
-" " Jump in snippets via TAB
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? coc#_select_confirm() :
-"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
 let g:coc_snippet_next = '<tab>'
 
 " Use CTRL-S for selections ranges.
@@ -334,15 +360,15 @@ let g:coc_snippet_next = '<tab>'
 nmap <silent> <C-y> <Plug>(coc-range-select)
 xmap <silent> <C-y> <Plug>(coc-range-select)
 
-
+lua require('leap').add_default_mappings()
 
 "" NERD TREE
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = []
-let g:NERDTreeStatusline = ''
-" Automaticaly close nvim if NERDTree is only thing left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Toggle
-nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+" let g:NERDTreeShowHidden = 1
+" let g:NERDTreeMinimalUI = 1
+" let g:NERDTreeIgnore = []
+" let g:NERDTreeStatusline = ''
+" " Automaticaly close nvim if NERDTree is only thing left open
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" " Toggle
+" nnoremap <silent> <C-b> :NERDTreeToggle<CR>
 

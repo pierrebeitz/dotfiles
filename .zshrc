@@ -1,9 +1,9 @@
 # oh-my-zsh config and init
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
-plugins=(cp docker docker-compose fasd git git-extras git-auto-fetch npm yarn z zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(cp fasd git git-extras git-auto-fetch npm yarn z zsh-autosuggestions zsh-syntax-highlighting)
 # git-extras
 
 # custom completions
@@ -16,10 +16,7 @@ source $ZSH/oh-my-zsh.sh
 export WORDCHARS='*?[]~&;!$%^<>'
 
 source ~/.aliases
-# source ~/.secret_stuff
-function f() {
-  find . -name "$1"
-}
+source ~/.secret_stuff
 
 bindkey -e
 bindkey '^[[1;9C' forward-word
@@ -191,6 +188,7 @@ export HUSKY_SKIP_HOOKS=1
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/.platformio/penv/bin"
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
+
 function b() {
   git checkout `git branch | fzf -f $1 | head -n1`
 }
@@ -202,4 +200,23 @@ function b() {
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
 alias gcm='[[ $(git branch | grep main) ]] && git checkout main || git checkout master'
+
+alias prByAuthor="gh pr list -L 100 --json author,title --jq '. | group_by(.author.login) | map(.[0] + {\"count\": length}) | sort_by(.count) | reverse | .[] | \"\(.count) \(.author.login)\"'"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/pierre/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/pierre/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/pierre/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/pierre/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

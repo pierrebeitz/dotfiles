@@ -3,6 +3,9 @@
   "diagnostic.autoRefresh": true,
   "signature.enable": true,
   "signature.target": "echo",
+  "tsserver.maxTsServerMemory": 6100,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.useAliasesForRenames": false,
   "languageserver": {
     "elmLS": {
       "command": "elm-language-server",

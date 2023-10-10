@@ -67,6 +67,9 @@
   unassumeall = !git assumed | xargs git update-index --no-assume-unchanged
   assumeall = !git st -s | awk {'print $2'} | xargs git assume
 
+  t = !sh -c 'git log --pretty=format:\"%h %ad %s\" --date=iso --reverse \"$1\" | tac | fzf --preview=\"git show {1}:\\\"$1\\\" | bat --style=numbers,changes --color=always\" --preview-window=right:70%' -
+
+
 
 [branch]
   # imply the --track option.
