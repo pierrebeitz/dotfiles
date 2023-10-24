@@ -1,6 +1,6 @@
 ---
 :verbose: true
-:update_sources: true
+:update_sources: true1
 :sources:
 - https://rubygems.org/
 :bulk_threshold: 1000
